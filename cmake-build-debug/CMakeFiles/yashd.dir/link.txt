@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/yashd.dir/yashdclient.c.o CMakeFiles/yashd.dir/yashdhost.c.o CMakeFiles/yashd.dir/yash.c.o  -o yashd 
