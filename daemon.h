@@ -124,96 +124,17 @@ void daemon_init(const char * const path, uint mask)
     pid = getpid();
     setpgrp(); /* GPI: modified for linux */
 
-//    /* Make sure only one server is running */
-//    if ( ( k = open(u_pid_path, O_RDWR | O_CREAT, 0666) ) < 0 )
-//        exit(1);
-//    if ( lockf(k, F_TLOCK, 0) != 0)
-//        exit(0);
+    /* Make sure only one server is running */
+    if ( ( k = open(u_pid_path, O_RDWR | O_CREAT, 0666) ) < 0 )
+        exit(1);
+    if ( lockf(k, F_TLOCK, 0) != 0)
+        exit(0);
 
     /* Save server's pid without closing file (so lock remains)*/
     sprintf(buff, "%6d", pid);
     write(k, buff, strlen(buff));
 
     return;
-}
-
-/**
- * @brief In an infinite loop, it reads characters from sockfd and writes them
- * to the same socket
- * @param[in] socket descriptor to read and write
- */
-void
-chr_echo(int sockfd)
-{
-    for ( ; ; ) {
-        ssize_t n;
-        char c;
-
-        n = read(sockfd, &c, 1);
-        if (n > 0) {
-            write(sockfd, &c, 1);
-        } else if ( n < 0) {
-            perror("Negative return from Read");
-            if (errno == EINTR) /* IO was interrupted by a signal */
-                continue;
-            return;
-        } else  /* connection closed by other end */
-            return;
-    }
-}
-
-/**
- * @brief  Create and return a stream listening socket in the Unix
- *  domain using the filepath path.
- * @param[in] path for the UNIX domain socket
- * @return the socket descriptor
- */
-int u__listening_socket(const char *path)
-{
-    int fd;
-    struct sockaddr_un  servaddr;
-
-    if ( ( fd = socket(AF_UNIX, SOCK_STREAM, 0) ) < 0 ) {
-        exit(1);
-    }
-
-    bzero((void *)&servaddr, sizeof(servaddr));
-    servaddr.sun_family = AF_UNIX;
-    strcpy(servaddr.sun_path, path);
-
-    if ( bind(fd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0 ) {
-        exit(1);
-    }
-
-    if ( listen(fd, 15) < 0 ) {
-        exit(1);
-    }
-    return fd;
-}
-
-/**
- * @brief Return a connected socket obtain by an accept call
- *   on the listening socket lsd. It returns -1 if
- *  the accept was interrupted by a signal.
- * @param[in] lsd is the listening socket
- * @return the socket connected to
- */
-int connected_socket(int lsd)
-{
-    int csd;
-    size_t clilen;
-    struct sockaddr_in cliaddr;
-
-    clilen = sizeof(cliaddr);
-    if ( (csd = accept(lsd, (struct sockaddr *) &cliaddr,
-                       (int *)&clilen)) < 0) {
-        if (errno == EINTR)
-            return -1;
-        else {
-            exit(1);
-        }
-    }
-    return csd;
 }
 
 //

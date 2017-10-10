@@ -1,465 +1,204 @@
-#include <stdlib.h>
+// client requires host ip address and should connect to port 3826
+// client should start by command yash <IP_Address_of_Server>
+
 #include <stdio.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <string.h>
-#include "helpers.h"
-#include <fcntl.h>
+/* socket(), bind(), recv, send */
+#include <sys/types.h>
+#include <sys/socket.h> /* sockaddr_in */
+#include <netinet/in.h> /* inet_addr() */
+#include <arpa/inet.h>
+#include <netdb.h> /* struct hostent */
+#include <string.h> /* memset() */
+#include <unistd.h> /* close() */
+#include <stdlib.h> /* exit() */
+#include <signal.h>
 
-//function declarations
-int executeLine(char **args, char *line);
-void mainLoop(void);
-int startPipedOperation(char **args1, char **args2);
-int startOperation(char **args);
-int startBgOperation(char **args);
-static void sig_int(int signo);
-static void sig_tstp(int signo);
-static void sig_handler(int signo);
 
-// Global Vars
-int pid_ch1, pid_ch2, pid;
-int activeJobsSize; //goes up and down as jobs finish
-struct Job *jobs;
-int *pactiveJobsSize = &activeJobsSize;
+#define MAXHOSTNAME 80
+#define BUFSIZE 1024
 
-//main to take arguments and start a loop
-int main(int argc, char **argv)
+static void client_sig_handler(int signo);
+
+char buf[BUFSIZE];
+char rbuf[BUFSIZE];
+void GetUserInput();
+void cleanup(char *buf);
+int sigint_flag = 0;
+int sigtstp_flag = 0;
+
+
+int rc, cc;
+int   sd;
+
+int main(int argc, char **argv ) {
+    int childpid;
+    struct   sockaddr_in server;
+    struct   sockaddr_in client;
+    struct  hostent *hp, *gethostbyname();
+    struct  servent *sp;
+    struct sockaddr_in from;
+    struct sockaddr_in addr;
+    int fromlen;
+    int length;
+    char ThisHost[80];
+    uint16_t server_port = 3826;
+
+    sp = getservbyname("echo", "tcp");
+
+    /** get TCPClient Host information, NAME and INET ADDRESS */
+
+    gethostname(ThisHost, MAXHOSTNAME);
+    /* OR strcpy(ThisHost,"localhost"); */
+
+    printf("----TCP/Client running at host NAME: %s\n", ThisHost);
+    if  ( (hp = gethostbyname(ThisHost)) == NULL ) {
+        fprintf(stderr, "Can't find host %s\n", argv[1]);
+        exit(-1);
+    }
+    bcopy ( hp->h_addr, &(server.sin_addr), hp->h_length);
+    printf("    (TCP/Client INET ADDRESS is: %s )\n", inet_ntoa(server.sin_addr));
+
+    /** get TCPServer-ex2 Host information, NAME and INET ADDRESS */
+
+    if (argc == 1){
+        printf("Host address is required...exiting\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if  ( (hp = gethostbyname(argv[1])) == NULL ) {
+        addr.sin_addr.s_addr = inet_addr(argv[1]);
+        if ((hp = gethostbyaddr((char *) &addr.sin_addr.s_addr,
+                                sizeof(addr.sin_addr.s_addr),AF_INET)) == NULL) {
+            fprintf(stderr, "Can't find host %s\n", argv[1]);
+            exit(-1);
+        }
+    }
+    printf("----TCP/Server running at host NAME: %s\n", hp->h_name);
+    bcopy ( hp->h_addr, &(server.sin_addr), hp->h_length);
+    printf("    (TCP/Server INET ADDRESS is: %s )\n", inet_ntoa(server.sin_addr));
+
+    /* Construct name of socket to send to. */
+    server.sin_family = AF_INET;
+    /* OR server.sin_family = hp->h_addrtype; */
+
+    server.sin_port = htons(server_port);
+    /*OR    server.sin_port = sp->s_port; */
+
+    /*   Create socket on which to send  and receive */
+
+    sd = socket (AF_INET,SOCK_STREAM,0);
+    /* sd = socket (hp->h_addrtype,SOCK_STREAM,0); */
+
+    if (sd<0) {
+        perror("opening stream socket");
+        exit(-1);
+    }
+
+    /** Connect to TCPServer-ex2 */
+    if ( connect(sd, (struct sockaddr *) &server, sizeof(server)) < 0 ) {
+        close(sd);
+        perror("connecting stream socket");
+        exit(0);
+    }
+    fromlen = sizeof(from);
+    if (getpeername(sd,(struct sockaddr *)&from,&fromlen)<0){
+        perror("could't get peername\n");
+        exit(1);
+    }
+    printf("Connected to TCPServer1: ");
+    printf("%s:%d\n", inet_ntoa(from.sin_addr),
+           ntohs(from.sin_port));
+    if ((hp = gethostbyaddr((char *) &from.sin_addr.s_addr,
+                            sizeof(from.sin_addr.s_addr),AF_INET)) == NULL)
+        fprintf(stderr, "Can't find host %s\n", inet_ntoa(from.sin_addr));
+    else
+        printf("(Name is : %s)\n", hp->h_name);
+    childpid = fork();
+    if (childpid == 0) {
+        GetUserInput();
+    }
+
+    /** get data from USER, send it SERVER,
+      receive it from SERVER, display it back to USER  */
+
+    signal(SIGINT, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN);
+    for(;;) {
+        cleanup(rbuf);
+        if( (rc=recv(sd, rbuf, sizeof(buf), 0)) < 0){
+            perror("receiving stream  message");
+            exit(-1);
+        }
+        if (rc > 0){
+            rbuf[rc]='\0';
+            printf("Received: %s\n", rbuf);
+        }else {
+            printf("Disconnected..\n");
+            close (sd);
+            exit(0);
+        }
+
+    }
+}
+
+void cleanup(char *buf)
 {
-    jobs = malloc(sizeof(struct Job) * MAX_NUMBER_JOBS);
-
-    mainLoop();
-
-    free(jobs);
-    return EXIT_SUCCESS;
+    int i;
+    for(i=0; i<BUFSIZE; i++) buf[i]='\0';
 }
 
-
-void mainLoop(void)
+void GetUserInput()
 {
-    int status;
-    char *line;
-    char **args;
-    activeJobsSize = 0;
-
-    //read input line
-    //parse input
-    //stay in loop until an exit is requested
-    //while waiting for user input SIGINT is ignored so ctrl+c will not stop the shell
-    do
-    {
-        // ignore sigint and sigtstp while waiting for input
-        signal(SIGINT, sig_handler);
-        signal(SIGTSTP, sig_handler);
-        printf("# ");
-        line = readLineIn();
-        if(line == NULL)
-        {
-            printf("\n");
-            killProcs(jobs, pactiveJobsSize);
-            break;
+    if(signal(SIGINT, client_sig_handler) == SIG_ERR)
+        printf("signal(SIGINT)error");
+    if(signal(SIGTSTP, client_sig_handler) == SIG_ERR)
+        printf("signal(SIGTSTP)error");
+    for(;;) {
+//        printf("\nType anything followed by RETURN, or type CTRL-D to exit\n");
+        cleanup(buf);
+        if ((rc = read(0, buf, sizeof(buf))) >= 0 || sigint_flag || sigtstp_flag) {
+            if (rc == 0 && sigint_flag == 0 && sigtstp_flag == 0) break;
+            if (sigint_flag)
+                strcpy(buf, "CTL c\n");
+            if (sigtstp_flag)
+                strcpy(buf, "CTL z\n");
+            rc = strlen(buf);
+            if(rc > 0) {
+                if (send(sd, buf, rc, 0) < 0)
+                    perror("sending stream message");
+            }
+            else {
+                printf("one of the flags was set\n");
+            }
+            sigint_flag = 0;
+            sigtstp_flag = 0;
         }
-        if(strcmp(line,"") == 0) continue;
-        char *lineCpy = strdup(line);
-        args = parseLine(line);
-        status = executeLine(args, lineCpy);
-        printf("\n");
-    } while(status);
-    return;
+    }
+        printf("EOF... exit\n");
+        close(sd);
+        kill(getppid(), 9);
+        exit(0);
 }
 
-
-int executeLine(char **args, char *line)
-{
-    if(!*args) return FINISHED_INPUT;
-    int returnVal;
-    int inBackground = containsAmp(args);   //check if args contains '&'
-    int inputPiped = pipeQty(args);         //get number of pipes in the command
-
-    if(!(
-            (strcmp(args[0], BUILT_IN_BG) == 0) ||
-            (strcmp(args[0], BUILT_IN_FG) == 0) ||
-            (strcmp(args[0], BUILT_IN_JOBS) == 0)))
-    {
-        addToJobs(jobs, line, pactiveJobsSize);
+static void client_sig_handler(int signo) {
+    if(signo == SIGINT) {
+        sigint_flag = 1;
+        printf("sigint caught\n");
     }
-
-    // check if command is a built in command
-    if(strcmp(args[0], BUILT_IN_BG) == 0)
-    {
-        yash_bg(jobs, activeJobsSize);
-        return FINISHED_INPUT;
+    if(signo == SIGTSTP) {
+        sigtstp_flag = 1;
+        printf("sigtstp caught\n");
     }
-    if(strcmp(args[0], BUILT_IN_FG) == 0)
-    {
-        yash_fg(jobs, activeJobsSize);
-        return FINISHED_INPUT;
-    }
-    if(strcmp(args[0], BUILT_IN_JOBS) == 0)
-        return yash_jobs(jobs, activeJobsSize);
-
-    //make sure & and | are not both in the argument
-    if(!pipeBGExclusive(args))
-    {
-        printf("Cannot background and pipeline commands "
-                       "('&' and '|' must be used separately).");
-        return FINISHED_INPUT;
-    }
-
-    // if there are more than 1 or less than 0 pipes reject the input as it is not a valid command
-    if (inputPiped > 1 || inputPiped < 0)
-    {
-        printf("Only one '|' allowed per line");
-        return FINISHED_INPUT;
-    }
-
-    //if there is a | in the argument then
-    if(inputPiped == 1)
-    {
-        struct PipedArgs pipedArgs = getTwoArgs(args);
-        returnVal = startPipedOperation(pipedArgs.args1, pipedArgs.args2);
-        free(pipedArgs.args1);
-        free(pipedArgs.args2);
-        free(args);
-        return returnVal;
-    }
-
-    if(inBackground)
-    {
-        returnVal = startBgOperation(args);
-    } else
-    {
-        returnVal = startOperation(args);
-    }
-    free(args);
-    return returnVal;
 }
-
-int startBgOperation(char **args)
-{
-    removeAmp(args);
-    FILE *writeFilePointer = NULL;
-    FILE *readFilePointer = NULL;
-    int argCount = countArgs(args);
-    int redirIn = containsInRedir(args);
-    int redirOut = containsOutRedir(args);
-    int fd = open("/dev/null", O_WRONLY);
-
-    pid_ch1 = fork();
-    if (pid_ch1 == 0)
-    {
-        setsid();
-        if (redirOut >= 0)
-        {
-            if(setRedirOut(args, redirOut, writeFilePointer, argCount) == -1)
-            {
-                removeLastFromJobs(jobs, pactiveJobsSize);
-                _exit(EXIT_FAILURE);
-                return FINISHED_INPUT;
-            }
-        }
-
-        if (redirIn >= 0)
-        {
-            if(setRedirIn(args, redirIn, readFilePointer, argCount) == -1)
-            {
-                removeLastFromJobs(jobs, pactiveJobsSize);
-                _exit(EXIT_FAILURE);
-                return FINISHED_INPUT;
-            }
-        }
-
-        if((redirIn < 0 && redirOut <0) || (redirIn >= 0 && redirOut <0))
-            dup2(fd, STDOUT_FILENO);
-        if(execvp(args[0], args) == -1)
-        {
-            perror("Problem executing command");
-            removeLastFromJobs(jobs, pactiveJobsSize);
-            _Exit(EXIT_FAILURE);
-        }
-
-    } else if (pid_ch1 < 0)
-    {
-        perror("error forking");
-    } else if (pid_ch1 > 0)
-    {
-        signal(SIGCHLD, proc_exit);
-        startJobsPID(jobs, pid_ch1, activeJobsSize);
-    }
-    if(writeFilePointer != NULL) fclose(writeFilePointer);
-    if(readFilePointer != NULL) fclose(readFilePointer);
-    return FINISHED_INPUT;
-}
-
-int startOperation(char **args)
-{
-    int status;
-    removeAmp(args);
-    FILE *writeFilePointer = NULL;
-    FILE *readFilePointer = NULL;
-    int argCount = countArgs(args);
-    int redirIn = containsInRedir(args);
-    int redirOut = containsOutRedir(args);
-
-    pid_ch1 = fork();
-    if(pid_ch1 == 0)
-    {
-        // child process
-        if (redirOut >= 0)
-        {
-            if(setRedirOut(args, redirOut, writeFilePointer, argCount) == -1)
-            {
-                removeLastFromJobs(jobs, pactiveJobsSize);
-                _exit(EXIT_FAILURE);
-                return FINISHED_INPUT;
-            }
-        }
-
-        if (redirIn >= 0) {
-            if (setRedirIn(args, redirIn, readFilePointer, argCount) == -1)
-            {
-                removeLastFromJobs(jobs, pactiveJobsSize);
-                _exit(EXIT_FAILURE);
-                return FINISHED_INPUT;
-            }
-        }
-
-        if(execvp(args[0], args) == -1)
-        {
-            perror("Problem executing command");
-            removeLastFromJobs(jobs, pactiveJobsSize);
-            _Exit(EXIT_FAILURE);
-        }
-    } else if(pid_ch1 < 0)
-    {
-        perror("error forking");
-    } else
-    {
-        // Parent process
-        startJobsPID(jobs, pid_ch1, activeJobsSize);
-        // change sig catchers back to not ignore signals
-        if (signal(SIGINT, sig_int) == SIG_ERR)
-        {
-            printf("signal(SIGINT)_error");
-        }
-        if (signal(SIGTSTP, sig_tstp) == SIG_ERR)
-        {
-            printf("signal(SIGTSTP)_error");
-        }
-        int count = 0;
-        while(count<1)
-        {
-            pid = waitpid(pid_ch1, &status, WUNTRACED | WCONTINUED);
-            if (pid == -1) {
-                perror("waitpid");
-            }
-            if (WIFEXITED(status)) {
-                removeFromJobs(jobs, pid_ch1, pactiveJobsSize);
-                count++;
-            } else if (WIFSTOPPED(status)) {
-                setJobStatus(jobs, pid_ch1, activeJobsSize, STOPPED);
-                count++;
-            }
-        }
-    }
-    if(writeFilePointer != NULL) fclose(writeFilePointer);
-    if(readFilePointer != NULL) fclose(readFilePointer);
-    return FINISHED_INPUT;
-}
-
-
-int startPipedOperation(char **args1, char **args2)
-{
-    int status;
-    int pfd[2];
-    FILE *writeFilePointer = NULL;
-    FILE *readFilePointer = NULL;
-    int argCount1 = countArgs(args1);
-    int argCount2 = countArgs(args2);
-    int redirIn1 = containsInRedir(args1);
-    int redirIn2 = containsInRedir(args2);
-    int redirOut1 = containsOutRedir(args1);
-    int redirOut2 = containsOutRedir(args2);
-
-    if (pipe(pfd) == -1)
-    {
-        perror("pipe");
-        return FINISHED_INPUT;
-    }
-
-    pid_ch1 = fork();
-    if(pid_ch1 > 0)
-    {
-        //parent
-        pid_ch2 = fork();
-        if(pid_ch2 > 0)
-        {
-            if(signal(SIGINT, sig_int) == SIG_ERR)
-            {
-                printf("signal(SIGINT)_error");
-            }
-            if(signal(SIGTSTP, sig_tstp) == SIG_ERR)
-            {
-                printf("signal(SIGTSTP)_error");
-            }
-            close(pfd[0]);
-            close(pfd[1]);
-            int count = 0;
-            while(count<2)
-            {
-                pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
-                startJobsPID(jobs, pid_ch1, activeJobsSize);
-                if(pid == -1)
-                {
-                    perror("waitpid");
-                    return FINISHED_INPUT;
-                }
-                if(WIFEXITED(status))
-                {
-                    removeFromJobs(jobs, pid_ch1, pactiveJobsSize);
-                    count++;
-                } else if(WIFSIGNALED(status))
-                {
-                    count++;
-                } else if(WIFSTOPPED(status))
-                {
-                    setJobStatus(jobs, pid_ch1, activeJobsSize, STOPPED);
-                    count++;
-                } else if(WIFCONTINUED(status))
-                {
-                    setJobStatus(jobs, pid_ch1, activeJobsSize, RUNNING);
-                    pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
-                }
-            }
-            return FINISHED_INPUT;
-        } else
-        {
-            // child 2
-            sleep(1);
-            setpgid(0, pid_ch1);
-            close(pfd[1]);
-            dup2(pfd[0],STDIN_FILENO);
-
-            if (redirOut2 >= 0)
-            {
-                if(setRedirOut(args2, redirOut2, writeFilePointer, argCount2) == -1)
-                {
-                    removeLastFromJobs(jobs, pactiveJobsSize);
-                    _exit(EXIT_FAILURE);
-                    return FINISHED_INPUT;
-                }
-            }
-
-            if (redirIn2 >= 0)
-            {
-                if(setRedirIn(args2, redirIn2, readFilePointer, argCount2) == -1)
-                {
-                    removeLastFromJobs(jobs, pactiveJobsSize);
-                    _exit(EXIT_FAILURE);
-                    return FINISHED_INPUT;
-                }
-            }
-
-            if(execvp(args2[0], args2) == -1)
-            {
-                perror("Problem executing command 2");
-                removeLastFromJobs(jobs, pactiveJobsSize);
-                _Exit(EXIT_FAILURE);
-                return FINISHED_INPUT;
-            }
-        }
-    } else
-    {
-        // child 1
-        setsid();
-        close(pfd[0]);
-        dup2(pfd[1], STDOUT_FILENO);
-
-        if (redirOut1 >= 0)
-        {
-            if(setRedirOut(args1, redirOut1, writeFilePointer, argCount1) == -1)
-            {
-                removeLastFromJobs(jobs, pactiveJobsSize);
-                _exit(EXIT_FAILURE);
-                return FINISHED_INPUT;
-            }
-        }
-
-        if (redirIn1 >= 0)
-        {
-            if(setRedirIn(args1, redirIn1, readFilePointer, argCount1) == -1)
-            {
-                removeLastFromJobs(jobs, pactiveJobsSize);
-                _exit(EXIT_FAILURE);
-                return FINISHED_INPUT;
-            }
-        }
-
-        if(execvp(args1[0], args1) == -1)
-        {
-            perror("Problem executing command 1");
-            removeLastFromJobs(jobs, pactiveJobsSize);
-            _Exit(EXIT_FAILURE);
-            return FINISHED_INPUT;
-        }
-    }
-    if(writeFilePointer != NULL) fclose(writeFilePointer);
-    if(readFilePointer != NULL) fclose(readFilePointer);
-    return FINISHED_INPUT;
-}
-
-
-static void sig_int(int signo)
-{
-    kill(-pid_ch1, SIGINT);
-}
-
-
-static void sig_tstp(int signo)
-{
-    kill(-pid_ch1, SIGTSTP);
-}
-
-void proc_exit(int signo)
-{
-    pid_t	sig_chld_pid;
-    sig_chld_pid = wait(NULL);
-    for(int i=0; i<activeJobsSize; i++)
-    {
-        if(jobs[i].pid_no == sig_chld_pid)
-            printf("\n[%d] DONE    %s\n", jobs[i].task_no, jobs[i].line);
-    }
-    printf("# ");
-    fflush(stdout);
-    removeFromJobs(jobs, sig_chld_pid, pactiveJobsSize);
-    signal(SIGCHLD,SIG_DFL);
-    return;
-}
-
-void fg_handler(int signo)
-{
-    pid_t	sig_chld_pid;
-
-    sig_chld_pid = wait(NULL);
-    removeFromJobs(jobs, sig_chld_pid, pactiveJobsSize);
-    signal(SIGCHLD,SIG_DFL);
-}
-
-static void sig_handler(int signo) {
-    switch(signo){
-        case SIGINT:
-            signal(signo,SIG_IGN);
-            signal(SIGINT,sig_handler);
-            break;
-        case SIGTSTP:
-            signal(signo,SIG_IGN);
-            signal(SIGTSTP,sig_handler);
-            break;
-        case SIGCHLD:
-            signal(signo,SIG_IGN);
-            signal(SIGCHLD, sig_handler);
-            break;
-        default:
-            return;
-    }
-
-}
+//static void client_sig_handler(int signo) {
+//    if(signo == SIGINT) {
+//        strcpy(buf, "CTL c\n");
+//        printf("sigint caught %s\n", buf);
+//        if(send(sd, buf, rc, 0) < 0)
+//            perror("sending stream message");
+//    }
+//    if(signo == SIGTSTP) {
+//        strcpy(buf, "CTL z\n");
+//        printf("sigtstp caught\n");
+//    }
+//}

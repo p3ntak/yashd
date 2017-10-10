@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named yash
+
+# Build rule for target.
+yash: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 yash
+.PHONY : yash
+
+# fast build rule for target.
+yash/fast:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/build
+.PHONY : yash/fast
+
+#=============================================================================
 # Target rules for targets named yashd
 
 # Build rule for target.
@@ -129,6 +142,7 @@ yash.o: yash.c.o
 
 # target to build an object file
 yash.c.o:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash.c.o
 	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash.c.o
 .PHONY : yash.c.o
 
@@ -138,6 +152,7 @@ yash.i: yash.c.i
 
 # target to preprocess a source file
 yash.c.i:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash.c.i
 	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash.c.i
 .PHONY : yash.c.i
 
@@ -147,62 +162,69 @@ yash.s: yash.c.s
 
 # target to generate assembly for a file
 yash.c.s:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash.c.s
 	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash.c.s
 .PHONY : yash.c.s
 
-yashdclient.o: yashdclient.c.o
+yash_program.o: yash_program.c.o
 
-.PHONY : yashdclient.o
-
-# target to build an object file
-yashdclient.c.o:
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashdclient.c.o
-.PHONY : yashdclient.c.o
-
-yashdclient.i: yashdclient.c.i
-
-.PHONY : yashdclient.i
-
-# target to preprocess a source file
-yashdclient.c.i:
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashdclient.c.i
-.PHONY : yashdclient.c.i
-
-yashdclient.s: yashdclient.c.s
-
-.PHONY : yashdclient.s
-
-# target to generate assembly for a file
-yashdclient.c.s:
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashdclient.c.s
-.PHONY : yashdclient.c.s
-
-yashdhost.o: yashdhost.c.o
-
-.PHONY : yashdhost.o
+.PHONY : yash_program.o
 
 # target to build an object file
-yashdhost.c.o:
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashdhost.c.o
-.PHONY : yashdhost.c.o
+yash_program.c.o:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash_program.c.o
+	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash_program.c.o
+.PHONY : yash_program.c.o
 
-yashdhost.i: yashdhost.c.i
+yash_program.i: yash_program.c.i
 
-.PHONY : yashdhost.i
+.PHONY : yash_program.i
 
 # target to preprocess a source file
-yashdhost.c.i:
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashdhost.c.i
-.PHONY : yashdhost.c.i
+yash_program.c.i:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash_program.c.i
+	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash_program.c.i
+.PHONY : yash_program.c.i
 
-yashdhost.s: yashdhost.c.s
+yash_program.s: yash_program.c.s
 
-.PHONY : yashdhost.s
+.PHONY : yash_program.s
 
 # target to generate assembly for a file
-yashdhost.c.s:
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashdhost.c.s
-.PHONY : yashdhost.c.s
+yash_program.c.s:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash_program.c.s
+	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash_program.c.s
+.PHONY : yash_program.c.s
+
+yashd.o: yashd.c.o
+
+.PHONY : yashd.o
+
+# target to build an object file
+yashd.c.o:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yashd.c.o
+	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashd.c.o
+.PHONY : yashd.c.o
+
+yashd.i: yashd.c.i
+
+.PHONY : yashd.i
+
+# target to preprocess a source file
+yashd.c.i:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yashd.c.i
+	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashd.c.i
+.PHONY : yashd.c.i
+
+yashd.s: yashd.c.s
+
+.PHONY : yashd.s
+
+# target to generate assembly for a file
+yashd.c.s:
+	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yashd.c.s
+	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashd.c.s
+.PHONY : yashd.c.s
 
 # Help Target
 help:
@@ -212,16 +234,17 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... yash"
 	@echo "... yashd"
 	@echo "... yash.o"
 	@echo "... yash.i"
 	@echo "... yash.s"
-	@echo "... yashdclient.o"
-	@echo "... yashdclient.i"
-	@echo "... yashdclient.s"
-	@echo "... yashdhost.o"
-	@echo "... yashdhost.i"
-	@echo "... yashdhost.s"
+	@echo "... yash_program.o"
+	@echo "... yash_program.i"
+	@echo "... yash_program.s"
+	@echo "... yashd.o"
+	@echo "... yashd.i"
+	@echo "... yashd.s"
 .PHONY : help
 
 

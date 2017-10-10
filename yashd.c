@@ -21,6 +21,7 @@ DESCRIPTION:  The program creates a TCP socket in the inet
 #include <stdlib.h> /* exit() */
 #include "threads.h"
 #include "daemon.h"
+#include "semaphore.h"
 
 #define MAXHOSTNAME 80
 void reusePort(int sock);
@@ -113,7 +114,7 @@ int main(int argc, char **argv ) {
     for(;;){
         pthread_t thr;
         int i, rc;
-//     create a thread_data_t argument array
+/**     create a thread_data_t argument array */
         psd  = accept(sd, (struct sockaddr *)&from, &fromlen);
         thread_data_t thr_data;
         thr_data.from = from;
@@ -136,7 +137,6 @@ int main(int argc, char **argv ) {
     }
 }
 
-//void EchoServe(int psd, struct sockaddr_in from) {
 void *EchoServe(void *arg) {
     thread_data_t *data = (thread_data_t *)arg;
     int psd = data->psd;
@@ -163,9 +163,9 @@ void *EchoServe(void *arg) {
         if (rc > 0){
             buf[rc]='\0';
             printf("Received: %s\n", buf);
-            printf("From TCP/Client: %s:%d\n", inet_ntoa(from.sin_addr),
-                   ntohs(from.sin_port));
+            printf("From TCP/Client: %s:%d\n", inet_ntoa(from.sin_addr), ntohs(from.sin_port));
             printf("(Name is : %s)\n", hp->h_name);
+            write_to_log(buf, rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
             if (send(psd, buf, rc, 0) <0 )
                 perror("sending stream message");
         }

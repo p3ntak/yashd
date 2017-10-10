@@ -57,57 +57,9 @@ include CMakeFiles/yashd.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/yashd.dir/flags.make
 
-CMakeFiles/yashd.dir/yashdclient.c.o: CMakeFiles/yashd.dir/flags.make
-CMakeFiles/yashd.dir/yashdclient.c.o: ../yashdclient.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matt/CLionProjects/SystemsProjects/yashd/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/yashd.dir/yashdclient.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/yashd.dir/yashdclient.c.o   -c /home/matt/CLionProjects/SystemsProjects/yashd/yashdclient.c
-
-CMakeFiles/yashd.dir/yashdclient.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/yashd.dir/yashdclient.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/matt/CLionProjects/SystemsProjects/yashd/yashdclient.c > CMakeFiles/yashd.dir/yashdclient.c.i
-
-CMakeFiles/yashd.dir/yashdclient.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/yashd.dir/yashdclient.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matt/CLionProjects/SystemsProjects/yashd/yashdclient.c -o CMakeFiles/yashd.dir/yashdclient.c.s
-
-CMakeFiles/yashd.dir/yashdclient.c.o.requires:
-
-.PHONY : CMakeFiles/yashd.dir/yashdclient.c.o.requires
-
-CMakeFiles/yashd.dir/yashdclient.c.o.provides: CMakeFiles/yashd.dir/yashdclient.c.o.requires
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashdclient.c.o.provides.build
-.PHONY : CMakeFiles/yashd.dir/yashdclient.c.o.provides
-
-CMakeFiles/yashd.dir/yashdclient.c.o.provides.build: CMakeFiles/yashd.dir/yashdclient.c.o
-
-
-CMakeFiles/yashd.dir/yashdhost.c.o: CMakeFiles/yashd.dir/flags.make
-CMakeFiles/yashd.dir/yashdhost.c.o: ../yashdhost.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matt/CLionProjects/SystemsProjects/yashd/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/yashd.dir/yashdhost.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/yashd.dir/yashdhost.c.o   -c /home/matt/CLionProjects/SystemsProjects/yashd/yashdhost.c
-
-CMakeFiles/yashd.dir/yashdhost.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/yashd.dir/yashdhost.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/matt/CLionProjects/SystemsProjects/yashd/yashdhost.c > CMakeFiles/yashd.dir/yashdhost.c.i
-
-CMakeFiles/yashd.dir/yashdhost.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/yashd.dir/yashdhost.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matt/CLionProjects/SystemsProjects/yashd/yashdhost.c -o CMakeFiles/yashd.dir/yashdhost.c.s
-
-CMakeFiles/yashd.dir/yashdhost.c.o.requires:
-
-.PHONY : CMakeFiles/yashd.dir/yashdhost.c.o.requires
-
-CMakeFiles/yashd.dir/yashdhost.c.o.provides: CMakeFiles/yashd.dir/yashdhost.c.o.requires
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashdhost.c.o.provides.build
-.PHONY : CMakeFiles/yashd.dir/yashdhost.c.o.provides
-
-CMakeFiles/yashd.dir/yashdhost.c.o.provides.build: CMakeFiles/yashd.dir/yashdhost.c.o
-
-
 CMakeFiles/yashd.dir/yash.c.o: CMakeFiles/yashd.dir/flags.make
 CMakeFiles/yashd.dir/yash.c.o: ../yash.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matt/CLionProjects/SystemsProjects/yashd/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/yashd.dir/yash.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matt/CLionProjects/SystemsProjects/yashd/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/yashd.dir/yash.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/yashd.dir/yash.c.o   -c /home/matt/CLionProjects/SystemsProjects/yashd/yash.c
 
 CMakeFiles/yashd.dir/yash.c.i: cmake_force
@@ -129,18 +81,66 @@ CMakeFiles/yashd.dir/yash.c.o.provides: CMakeFiles/yashd.dir/yash.c.o.requires
 CMakeFiles/yashd.dir/yash.c.o.provides.build: CMakeFiles/yashd.dir/yash.c.o
 
 
+CMakeFiles/yashd.dir/yashd.c.o: CMakeFiles/yashd.dir/flags.make
+CMakeFiles/yashd.dir/yashd.c.o: ../yashd.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matt/CLionProjects/SystemsProjects/yashd/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/yashd.dir/yashd.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/yashd.dir/yashd.c.o   -c /home/matt/CLionProjects/SystemsProjects/yashd/yashd.c
+
+CMakeFiles/yashd.dir/yashd.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/yashd.dir/yashd.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/matt/CLionProjects/SystemsProjects/yashd/yashd.c > CMakeFiles/yashd.dir/yashd.c.i
+
+CMakeFiles/yashd.dir/yashd.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/yashd.dir/yashd.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matt/CLionProjects/SystemsProjects/yashd/yashd.c -o CMakeFiles/yashd.dir/yashd.c.s
+
+CMakeFiles/yashd.dir/yashd.c.o.requires:
+
+.PHONY : CMakeFiles/yashd.dir/yashd.c.o.requires
+
+CMakeFiles/yashd.dir/yashd.c.o.provides: CMakeFiles/yashd.dir/yashd.c.o.requires
+	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashd.c.o.provides.build
+.PHONY : CMakeFiles/yashd.dir/yashd.c.o.provides
+
+CMakeFiles/yashd.dir/yashd.c.o.provides.build: CMakeFiles/yashd.dir/yashd.c.o
+
+
+CMakeFiles/yashd.dir/yash_program.c.o: CMakeFiles/yashd.dir/flags.make
+CMakeFiles/yashd.dir/yash_program.c.o: ../yash_program.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/matt/CLionProjects/SystemsProjects/yashd/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/yashd.dir/yash_program.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/yashd.dir/yash_program.c.o   -c /home/matt/CLionProjects/SystemsProjects/yashd/yash_program.c
+
+CMakeFiles/yashd.dir/yash_program.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/yashd.dir/yash_program.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/matt/CLionProjects/SystemsProjects/yashd/yash_program.c > CMakeFiles/yashd.dir/yash_program.c.i
+
+CMakeFiles/yashd.dir/yash_program.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/yashd.dir/yash_program.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/matt/CLionProjects/SystemsProjects/yashd/yash_program.c -o CMakeFiles/yashd.dir/yash_program.c.s
+
+CMakeFiles/yashd.dir/yash_program.c.o.requires:
+
+.PHONY : CMakeFiles/yashd.dir/yash_program.c.o.requires
+
+CMakeFiles/yashd.dir/yash_program.c.o.provides: CMakeFiles/yashd.dir/yash_program.c.o.requires
+	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash_program.c.o.provides.build
+.PHONY : CMakeFiles/yashd.dir/yash_program.c.o.provides
+
+CMakeFiles/yashd.dir/yash_program.c.o.provides.build: CMakeFiles/yashd.dir/yash_program.c.o
+
+
 # Object files for target yashd
 yashd_OBJECTS = \
-"CMakeFiles/yashd.dir/yashdclient.c.o" \
-"CMakeFiles/yashd.dir/yashdhost.c.o" \
-"CMakeFiles/yashd.dir/yash.c.o"
+"CMakeFiles/yashd.dir/yash.c.o" \
+"CMakeFiles/yashd.dir/yashd.c.o" \
+"CMakeFiles/yashd.dir/yash_program.c.o"
 
 # External object files for target yashd
 yashd_EXTERNAL_OBJECTS =
 
-yashd: CMakeFiles/yashd.dir/yashdclient.c.o
-yashd: CMakeFiles/yashd.dir/yashdhost.c.o
 yashd: CMakeFiles/yashd.dir/yash.c.o
+yashd: CMakeFiles/yashd.dir/yashd.c.o
+yashd: CMakeFiles/yashd.dir/yash_program.c.o
 yashd: CMakeFiles/yashd.dir/build.make
 yashd: CMakeFiles/yashd.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/matt/CLionProjects/SystemsProjects/yashd/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable yashd"
@@ -151,9 +151,9 @@ CMakeFiles/yashd.dir/build: yashd
 
 .PHONY : CMakeFiles/yashd.dir/build
 
-CMakeFiles/yashd.dir/requires: CMakeFiles/yashd.dir/yashdclient.c.o.requires
-CMakeFiles/yashd.dir/requires: CMakeFiles/yashd.dir/yashdhost.c.o.requires
 CMakeFiles/yashd.dir/requires: CMakeFiles/yashd.dir/yash.c.o.requires
+CMakeFiles/yashd.dir/requires: CMakeFiles/yashd.dir/yashd.c.o.requires
+CMakeFiles/yashd.dir/requires: CMakeFiles/yashd.dir/yash_program.c.o.requires
 
 .PHONY : CMakeFiles/yashd.dir/requires
 
