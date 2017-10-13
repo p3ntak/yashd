@@ -43,12 +43,12 @@ int main(int argc, char **argv ) {
     int pn;
     uint16_t server_port = 3826;
 
-    ret = sem_init(&mysem, 0, 1);
-    if (ret != 0) {
-        /* error. errno has been set */
-        perror("Unable to initialize the semaphore");
-        abort();
-    }
+//    ret = sem_init(&mysem, 0, 1);
+//    if (ret != 0) {
+//        /* error. errno has been set */
+//        perror("Unable to initialize the semaphore");
+//        abort();
+//    }
 
     if (argc > 1)
         strncpy(u_server_path, argv[1], PATHMAX); /* use argv[1] */

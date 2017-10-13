@@ -160,13 +160,9 @@ void GetUserInput()
 //        printf("\nType anything followed by RETURN, or type CTRL-D to exit\n");
         cleanup(buf);
         cleanup(yash_proto_buf);
-        if ((rc = read(0, buf, sizeof(buf))) >= 0 || sigint_flag || sigtstp_flag) {
-            if (rc == 0 && sigint_flag == 0 && sigtstp_flag == 0) break;
-            if (sigint_flag)
-                strcpy(buf, "CTL c\n");
-            if (sigtstp_flag)
-                strcpy(buf, "CTL z\n");
-            rc = strlen(buf);
+        if ((rc = read(0, buf, sizeof(buf)))) {
+            if (rc == 0) break;
+            if(strstr(buf, "exit")) break;
             if(rc > 0) {
                 strcat(yash_proto_buf, cmd);
                 strcat(yash_proto_buf, buf);
@@ -174,26 +170,31 @@ void GetUserInput()
                 if (send(sd, yash_proto_buf, rc, 0) < 0)
                     perror("sending stream message");
             }
-            else {
-                printf("one of the flags was set\n");
-            }
-            sigint_flag = 0;
-            sigtstp_flag = 0;
         }
     }
-        printf("EOF... exit\n");
-        close(sd);
-        kill(getppid(), 9);
-        exit(0);
+    printf("EOF... exit\n");
+    close(sd);
+    kill(getppid(), 9);
+    free(yash_proto_buf);
+    exit(0);
 }
 
 static void client_sig_handler(int signo) {
     if(signo == SIGINT) {
-        sigint_flag = 1;
-        printf("sigint caught\n");
+        cleanup(buf);
+        strcpy(buf, "CTL c\n");
+        rc = strlen(buf);
+        if (send(sd, buf, rc, 0) < 0)
+            perror("sending stream message");
+        cleanup(buf);
     }
+
     if(signo == SIGTSTP) {
-        sigtstp_flag = 1;
-        printf("sigtstp caught\n");
+        cleanup(buf);
+        strcpy(buf, "CTL z\n");
+        rc = strlen(buf);
+        if (send(sd, buf, rc, 0) < 0)
+            perror("sending stream message");
+        cleanup(buf);
     }
 }
