@@ -131,31 +131,24 @@
 			</Target>
 		</Build>
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/daemon.h">
-			<Option target="yash"/>
 			<Option target="yashd"/>
 		</Unit>
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/helpers.h">
-			<Option target="yash"/>
 			<Option target="yashd"/>
 		</Unit>
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/semaphore.h">
-			<Option target="yash"/>
 			<Option target="yashd"/>
 		</Unit>
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/threads.h">
-			<Option target="yash"/>
 			<Option target="yashd"/>
 		</Unit>
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/yash.c">
 			<Option target="yash"/>
-			<Option target="yashd"/>
 		</Unit>
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/yash_program.c">
-			<Option target="yash"/>
 			<Option target="yashd"/>
 		</Unit>
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/yashd.c">
-			<Option target="yash"/>
 			<Option target="yashd"/>
 		</Unit>
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/CMakeLists.txt">

@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/yash1.dir/yash.c.o  -o yash1 

@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/yashd1.dir/yashd.c.o CMakeFiles/yashd1.dir/yash_program.c.o  -o yashd1 -lpthread 

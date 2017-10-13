@@ -3,6 +3,10 @@ project(yashd)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES yash.c yashd.c yash_program.c helpers.h threads.h yashd.c daemon.h semaphore.h)
-add_executable(yashd ${SOURCE_FILES})
-add_executable(yash ${SOURCE_FILES})
+find_package( Threads )
+
+set(SOURCE_FILES_YASHD yashd.c yash_program.c helpers.h threads.h daemon.h semaphore.h)
+set(SOURCE_FILES_YASH yash.c )
+add_executable(yashd ${SOURCE_FILES_YASHD})
+add_executable(yash ${SOURCE_FILES_YASH})
+target_link_libraries( yashd ${CMAKE_THREAD_LIBS_INIT} )

@@ -137,6 +137,8 @@ int main(int argc, char **argv ) {
     }
 }
 
+// todo: change echoserver to launch yashd. thread should first spawn two processes.
+// parent should do non blocking waitpid followed up a non blocking receive so a CTL signal can be received
 void *EchoServe(void *arg) {
     thread_data_t *data = (thread_data_t *)arg;
     int psd = data->psd;

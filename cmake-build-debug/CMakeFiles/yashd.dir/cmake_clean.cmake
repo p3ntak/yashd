@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/yashd.dir/yash.c.o"
   "CMakeFiles/yashd.dir/yashd.c.o"
   "CMakeFiles/yashd.dir/yash_program.c.o"
   "yashd.pdb"

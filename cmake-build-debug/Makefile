@@ -143,7 +143,6 @@ yash.o: yash.c.o
 # target to build an object file
 yash.c.o:
 	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash.c.o
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash.c.o
 .PHONY : yash.c.o
 
 yash.i: yash.c.i
@@ -153,7 +152,6 @@ yash.i: yash.c.i
 # target to preprocess a source file
 yash.c.i:
 	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash.c.i
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash.c.i
 .PHONY : yash.c.i
 
 yash.s: yash.c.s
@@ -163,7 +161,6 @@ yash.s: yash.c.s
 # target to generate assembly for a file
 yash.c.s:
 	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash.c.s
-	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash.c.s
 .PHONY : yash.c.s
 
 yash_program.o: yash_program.c.o
@@ -172,7 +169,6 @@ yash_program.o: yash_program.c.o
 
 # target to build an object file
 yash_program.c.o:
-	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash_program.c.o
 	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash_program.c.o
 .PHONY : yash_program.c.o
 
@@ -182,7 +178,6 @@ yash_program.i: yash_program.c.i
 
 # target to preprocess a source file
 yash_program.c.i:
-	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash_program.c.i
 	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash_program.c.i
 .PHONY : yash_program.c.i
 
@@ -192,7 +187,6 @@ yash_program.s: yash_program.c.s
 
 # target to generate assembly for a file
 yash_program.c.s:
-	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yash_program.c.s
 	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yash_program.c.s
 .PHONY : yash_program.c.s
 
@@ -202,7 +196,6 @@ yashd.o: yashd.c.o
 
 # target to build an object file
 yashd.c.o:
-	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yashd.c.o
 	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashd.c.o
 .PHONY : yashd.c.o
 
@@ -212,7 +205,6 @@ yashd.i: yashd.c.i
 
 # target to preprocess a source file
 yashd.c.i:
-	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yashd.c.i
 	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashd.c.i
 .PHONY : yashd.c.i
 
@@ -222,7 +214,6 @@ yashd.s: yashd.c.s
 
 # target to generate assembly for a file
 yashd.c.s:
-	$(MAKE) -f CMakeFiles/yash.dir/build.make CMakeFiles/yash.dir/yashd.c.s
 	$(MAKE) -f CMakeFiles/yashd.dir/build.make CMakeFiles/yashd.dir/yashd.c.s
 .PHONY : yashd.c.s
 

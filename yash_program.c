@@ -23,7 +23,7 @@ struct Job *jobs;
 int *pactiveJobsSize = &activeJobsSize;
 
 //main to take arguments and start a loop
-int main(int argc, char **argv)
+int yash_prog_loop(int argc, char **argv)
 {
     jobs = malloc(sizeof(struct Job) * MAX_NUMBER_JOBS);
 
@@ -237,7 +237,7 @@ int startOperation(char **args)
         // Parent process
         startJobsPID(jobs, pid_ch1, activeJobsSize);
         // change sig catchers back to not ignore signals
-        if (signal(SIGINT, client_sig_handler) == SIG_ERR)
+        if (signal(SIGINT, sig_handler) == SIG_ERR)
         {
             printf("signal(SIGINT)_error");
         }
@@ -293,7 +293,7 @@ int startPipedOperation(char **args1, char **args2)
         pid_ch2 = fork();
         if(pid_ch2 > 0)
         {
-            if(signal(SIGINT, client_sig_handler) == SIG_ERR)
+            if(signal(SIGINT, sig_handler) == SIG_ERR)
             {
                 printf("signal(SIGINT)_error");
             }

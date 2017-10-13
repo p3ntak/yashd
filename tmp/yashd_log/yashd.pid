@@ -1,0 +1,16 @@
+  5329----TCP/Server running at host NAME: ubuntu
+    (TCP/Server INET ADDRESS is: 127.0.1.1 )
+Server Port is: 3826
+Serving 127.0.0.1:36366
+(Name is : localhost)
+
+...server is waiting...
+Received: CTL c
+
+From TCP/Client: 127.0.0.1:36366
+(Name is : localhost)
+
+...server is waiting...
+TCP/Client: 127.0.0.1:36366
+(Name is : localhost)
+Disconnected..

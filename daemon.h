@@ -25,7 +25,7 @@
 extern int errno;
 
 #define PATHMAX 255
-static char u_server_path[PATHMAX+1] = "/tmp/u-echod";  /* default */
+static char u_server_path[PATHMAX+1] = "tmp/yashd_log";  /* default */
 static char u_socket_path[PATHMAX+1];
 static char u_log_path[PATHMAX+1];
 static char u_pid_path[PATHMAX+1];
