@@ -335,7 +335,6 @@ int startPipedOperation(char **args1, char **args2)
         } else
         {
             // child 2
-            sleep(1);
             setpgid(0, pid_ch1);
             close(pfd[1]);
             dup2(pfd[0],STDIN_FILENO);

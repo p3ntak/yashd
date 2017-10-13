@@ -16,6 +16,7 @@
 
 #define MAXHOSTNAME 80
 #define BUFSIZE 1024
+#define MAX_INPUT_LENGTH 200
 
 static void client_sig_handler(int signo);
 
@@ -125,13 +126,13 @@ int main(int argc, char **argv ) {
     signal(SIGTSTP, SIG_IGN);
     for(;;) {
         cleanup(rbuf);
-        if( (rc=recv(sd, rbuf, sizeof(buf), 0)) < 0){
+        if( (rc=recv(sd, rbuf, sizeof(rbuf), 0)) < 0){
             perror("receiving stream  message");
             exit(-1);
         }
         if (rc > 0){
             rbuf[rc]='\0';
-            printf("Received: %s\n", rbuf);
+            printf("%s\n", rbuf);
         }else {
             printf("Disconnected..\n");
             close (sd);
@@ -153,9 +154,12 @@ void GetUserInput()
         printf("signal(SIGINT)error");
     if(signal(SIGTSTP, client_sig_handler) == SIG_ERR)
         printf("signal(SIGTSTP)error");
+    char cmd[] = "CMD ";
+    char *yash_proto_buf = malloc(sizeof(char) * MAX_INPUT_LENGTH);
     for(;;) {
 //        printf("\nType anything followed by RETURN, or type CTRL-D to exit\n");
         cleanup(buf);
+        cleanup(yash_proto_buf);
         if ((rc = read(0, buf, sizeof(buf))) >= 0 || sigint_flag || sigtstp_flag) {
             if (rc == 0 && sigint_flag == 0 && sigtstp_flag == 0) break;
             if (sigint_flag)
@@ -164,7 +168,10 @@ void GetUserInput()
                 strcpy(buf, "CTL z\n");
             rc = strlen(buf);
             if(rc > 0) {
-                if (send(sd, buf, rc, 0) < 0)
+                strcat(yash_proto_buf, cmd);
+                strcat(yash_proto_buf, buf);
+                rc = strlen(yash_proto_buf);
+                if (send(sd, yash_proto_buf, rc, 0) < 0)
                     perror("sending stream message");
             }
             else {
@@ -190,15 +197,3 @@ static void client_sig_handler(int signo) {
         printf("sigtstp caught\n");
     }
 }
-//static void client_sig_handler(int signo) {
-//    if(signo == SIGINT) {
-//        strcpy(buf, "CTL c\n");
-//        printf("sigint caught %s\n", buf);
-//        if(send(sd, buf, rc, 0) < 0)
-//            perror("sending stream message");
-//    }
-//    if(signo == SIGTSTP) {
-//        strcpy(buf, "CTL z\n");
-//        printf("sigtstp caught\n");
-//    }
-//}

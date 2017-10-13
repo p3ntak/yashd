@@ -43,7 +43,7 @@ void write_to_log(char *buffer, size_t buffer_size, char *host_address, int host
     }
 
     /* Convert to local time format. */
-    c_time_string = ctime(&current_time); // TODO: fix c string to include only relevant parts
+    c_time_string = ctime(&current_time);
     size_t string_size = strlen(c_time_string);
     c_time_string[string_size-1] = '\0';
     char yashd_str[] = " yashd[";
