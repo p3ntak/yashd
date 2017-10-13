@@ -23,7 +23,8 @@ struct Job *jobs;
 int *pactiveJobsSize = &activeJobsSize;
 
 //main to take arguments and start a loop
-int yash_prog_loop(int argc, char **argv)
+//int yash_prog_loop(int argc, char **argv)
+int yash_prog_loop(void)
 {
     jobs = malloc(sizeof(struct Job) * MAX_NUMBER_JOBS);
 
@@ -51,7 +52,7 @@ void mainLoop(void)
         signal(SIGINT, sig_handler);
         signal(SIGTSTP, sig_handler);
         printf("# ");
-        line = readLineIn();
+//        line = readLineIn();
         if(line == NULL)
         {
             printf("\n");

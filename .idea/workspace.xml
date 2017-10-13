@@ -13,22 +13,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0941ee4b-b836-4b0a-84f7-8e4c22ca17cc" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/semaphore.h" afterPath="$PROJECT_DIR$/my_semaphore.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yashd" afterPath="$PROJECT_DIR$/yashd" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/DependInfo.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/build.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/build.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/cmake_clean.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/depend.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/depend.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/link.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/link.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/progress.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/yashd.dir/progress.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/yashd.cbp" afterPath="$PROJECT_DIR$/cmake-build-debug/yashd.cbp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/daemon.h" afterPath="$PROJECT_DIR$/daemon.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/yashd_log/yashd.log" afterPath="$PROJECT_DIR$/tmp/yashd_log/yashd.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/yashd_log/yashd.pid" afterPath="$PROJECT_DIR$/tmp/yashd_log/yashd.pid" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yash_program.c" afterPath="$PROJECT_DIR$/yash_program.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yashd.c" afterPath="$PROJECT_DIR$/yashd.c" />
     </list>
@@ -42,11 +33,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="my_semaphore.h" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/my_semaphore.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="35" column="23" lean-forward="true" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+              <folding>
+                <element signature="e#91#110#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="yashd.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yashd.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1880">
-              <caret line="118" column="31" lean-forward="true" selection-start-line="118" selection-start-column="31" selection-end-line="118" selection-end-column="31" />
+            <state relative-caret-position="720">
+              <caret line="180" column="1" lean-forward="true" selection-start-line="180" selection-start-column="1" selection-end-line="180" selection-end-column="1" />
               <folding>
                 <element signature="e#422#444#0" expanded="true" />
               </folding>
@@ -54,11 +57,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="daemon.h" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/daemon.h">
+      <file leaf-file-name="yash_program.c" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/yash_program.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="34" column="48" lean-forward="true" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
+            <state relative-caret-position="520">
+              <caret line="26" column="23" lean-forward="false" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="helpers.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/helpers.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2120">
+              <caret line="106" column="14" lean-forward="false" selection-start-line="106" selection-start-column="6" selection-end-line="106" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -77,6 +90,7 @@
       <find>malloc</find>
       <find>accept</find>
       <find>make</find>
+      <find>readline</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -89,12 +103,13 @@
         <option value="$PROJECT_DIR$/threads.h" />
         <option value="$PROJECT_DIR$/yashdclient.c" />
         <option value="$PROJECT_DIR$/yashdhost.c" />
-        <option value="$PROJECT_DIR$/semaphore.h" />
-        <option value="$PROJECT_DIR$/yashd.c" />
         <option value="$PROJECT_DIR$/yash.c" />
-        <option value="$PROJECT_DIR$/yash_program.c" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/daemon.h" />
+        <option value="$PROJECT_DIR$/yash_program.c" />
+        <option value="$PROJECT_DIR$/semaphore.h" />
+        <option value="$PROJECT_DIR$/yashd.c" />
+        <option value="$PROJECT_DIR$/my_semaphore.h" />
       </list>
     </option>
   </component>
@@ -196,12 +211,13 @@
       <workItem from="1507595815018" duration="9273000" />
       <workItem from="1507610472844" duration="45000" />
       <workItem from="1507610673420" duration="8126000" />
-      <workItem from="1507900469096" duration="868000" />
+      <workItem from="1507900469096" duration="9534000" />
+      <workItem from="1507910649830" duration="426000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57598000" />
+    <option name="totallyTimeSpent" value="66690000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -216,14 +232,14 @@
     <frame x="89" y="-5" width="1849" height="967" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18809126" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1903172" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971016" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998943" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31553397" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31674758" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -263,7 +279,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2180">
           <caret line="109" column="33" lean-forward="true" selection-start-line="109" selection-start-column="33" selection-end-line="109" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -271,10 +286,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semaphore.h">
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="520">
           <caret line="26" column="58" lean-forward="false" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
@@ -306,10 +322,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semaphore.h">
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="520">
           <caret line="26" column="58" lean-forward="false" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
@@ -341,10 +358,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semaphore.h">
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="520">
           <caret line="26" column="58" lean-forward="true" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
@@ -376,10 +394,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semaphore.h">
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
@@ -411,10 +430,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semaphore.h">
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
@@ -446,10 +466,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semaphore.h">
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
@@ -481,10 +502,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8200">
           <caret line="410" column="0" lean-forward="false" selection-start-line="410" selection-start-column="0" selection-end-line="419" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semaphore.h">
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
@@ -516,10 +538,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6970">
           <caret line="410" column="0" lean-forward="false" selection-start-line="410" selection-start-column="0" selection-end-line="419" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semaphore.h">
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
@@ -572,13 +595,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-587">
-          <caret line="132" column="26" lean-forward="false" selection-start-line="132" selection-start-column="20" selection-end-line="132" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -615,13 +631,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="44" lean-forward="true" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/yash.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1330">
@@ -630,38 +639,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/yash_program.c">
+    <entry file="file://$PROJECT_DIR$/daemon.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
-          <caret line="25" column="18" lean-forward="false" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
+          <caret line="34" column="48" lean-forward="false" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semaphore.h">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="26" column="19" lean-forward="true" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
-          <folding>
-            <element signature="e#91#110#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="220">
+          <caret line="11" column="53" lean-forward="true" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2120">
+          <caret line="106" column="14" lean-forward="false" selection-start-line="106" selection-start-column="6" selection-end-line="106" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yash_program.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="520">
+          <caret line="26" column="23" lean-forward="false" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/yashd.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1880">
-          <caret line="118" column="31" lean-forward="true" selection-start-line="118" selection-start-column="31" selection-end-line="118" selection-end-column="31" />
+        <state relative-caret-position="720">
+          <caret line="180" column="1" lean-forward="true" selection-start-line="180" selection-start-column="1" selection-end-line="180" selection-end-column="1" />
           <folding>
             <element signature="e#422#444#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/daemon.h">
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="34" column="48" lean-forward="true" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
-          <folding />
+        <state relative-caret-position="255">
+          <caret line="35" column="23" lean-forward="true" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+          <folding>
+            <element signature="e#91#110#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

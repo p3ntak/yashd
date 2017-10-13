@@ -1,16 +1,54 @@
-  5329----TCP/Server running at host NAME: ubuntu
+  8129----TCP/Server running at host NAME: ubuntu
     (TCP/Server INET ADDRESS is: 127.0.1.1 )
 Server Port is: 3826
-Serving 127.0.0.1:36366
+Serving 127.0.0.1:36404
 (Name is : localhost)
 
 ...server is waiting...
-Received: CTL c
-
-From TCP/Client: 127.0.0.1:36366
+Serving 127.0.0.1:36406
 (Name is : localhost)
 
 ...server is waiting...
-TCP/Client: 127.0.0.1:36366
+Received: test 9
+
+From TCP/Client: 127.0.0.1:36404
+(Name is : localhost)
+ -- thread A -- lock acquired. Enter critical section
+Received: test 8
+
+From TCP/Client: 127.0.0.1:36406
+(Name is : localhost)
+ -- thread A -- leaving critical section
+
+...server is waiting...
+ -- thread A -- lock acquired. Enter critical section
+ -- thread A -- leaving critical section
+
+...server is waiting...
+TCP/Client: 127.0.0.1:36406
+(Name is : localhost)
+Disconnected..
+lhost)
+ -- thread A -- lock acquired. Enter critical section
+TCP/Client: 127.0.0.1:36398
+(Name is : localhost)
+Disconnected..
+ived: test 6
+
+From TCP/Client: 127.0.0.1:36386
+(Name is : localhost)
+ -- thread A -- lock acquired. Enter critical section
+Received: test 7
+
+From TCP/Client: 127.0.0.1:36388
+(Name is : localhost)
+ -- thread A -- lock acquired. Enter critical section
+ -- thread A -- leaving critical section
+
+...server is waiting...
+ -- thread A -- leaving critical section
+
+...server is waiting...
+TCP/Client: 127.0.0.1:36386
 (Name is : localhost)
 Disconnected..

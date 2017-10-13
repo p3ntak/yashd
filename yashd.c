@@ -21,14 +21,15 @@ DESCRIPTION:  The program creates a TCP socket in the inet
 #include <stdlib.h> /* exit() */
 #include "threads.h"
 #include "daemon.h"
-#include "semaphore.h"
+#include "my_semaphore.h"
 
 #define MAXHOSTNAME 80
 void reusePort(int sock);
 void *EchoServe(void *arg);
 
 // TODO: put main in a main loop so we can exit main without killing the yashd
-
+int ret;
+sem_t mysem;
 
 int main(int argc, char **argv ) {
     int   sd, psd;
@@ -41,6 +42,13 @@ int main(int argc, char **argv ) {
     char ThisHost[80];
     int pn;
     uint16_t server_port = 3826;
+
+    ret = sem_init(&mysem, 0, 1);
+    if (ret != 0) {
+        /* error. errno has been set */
+        perror("Unable to initialize the semaphore");
+        abort();
+    }
 
     if (argc > 1)
         strncpy(u_server_path, argv[1], PATHMAX); /* use argv[1] */
@@ -124,16 +132,6 @@ int main(int argc, char **argv ) {
             close(psd);
             return EXIT_FAILURE;
         }
-//        psd  = accept(sd, (struct sockaddr *)&from, &fromlen);
-//        childpid = fork();
-//        if ( childpid == 0) {
-//            close (sd);
-//            EchoServe(psd, from);
-//        }
-//        else{
-//            printf("My new child pid is %d\n", childpid);
-//            close(psd);
-//        }
     }
 }
 
@@ -177,7 +175,7 @@ void *EchoServe(void *arg) {
             printf("(Name is : %s)\n", hp->h_name);
             printf("Disconnected..\n");
             close (psd);
-            exit(0);
+            pthread_exit(NULL);
         }
     }
 }

@@ -9,6 +9,9 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <semaphore.h>
+
+extern sem_t mysem;
 
 void write_to_log(char *buffer, size_t buffer_size, char *host_address, int host_port);
 
@@ -16,6 +19,22 @@ void write_to_log(char *buffer, size_t buffer_size, char *host_address, int host
     FILE *log;
     time_t current_time;
     char *c_time_string;
+    int ret;
+
+    do {
+        ret = sem_wait(&mysem);
+        if (ret != 0) {
+            /* the lock wasn't acquired */
+            if (errno != EINVAL) {
+                perror(" -- thread A -- Error in sem_wait. terminating -> ");
+                pthread_exit(NULL);
+            } else {
+                /* sem_wait() has been interrupted by a signal: looping again */
+                printf(" -- thread A -- sem_wait interrupted. Trying again for the lock...\n");
+            }
+        }
+    } while (ret != 0);
+    printf(" -- thread A -- lock acquired. Enter critical section\n");
 
     current_time = time(NULL);
     if (current_time == ((time_t)-1)){
@@ -49,15 +68,17 @@ void write_to_log(char *buffer, size_t buffer_size, char *host_address, int host
     strcat(final_string, space);
     strcat(final_string, buffer);
 
-    if (c_time_string == NULL){
-        (void) fprintf(stderr, "Failure to convert the current time.\n");
-        return;
-    }
     log = fopen(u_log_path, "aw");
     if(log){
         fwrite(final_string,final_string_size,1,log);
     }
     fclose(log);
+    printf(" -- thread A -- leaving critical section\n");
+    ret = sem_post(&mysem);
+    if (ret != 0) {
+        perror(" -- thread A -- Error in sem_post");
+        pthread_exit(NULL);
+    }
     free(final_string);
 }
 

@@ -136,7 +136,7 @@
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/helpers.h">
 			<Option target="yashd"/>
 		</Unit>
-		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/semaphore.h">
+		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/my_semaphore.h">
 			<Option target="yashd"/>
 		</Unit>
 		<Unit filename="/home/matt/CLionProjects/SystemsProjects/yashd/threads.h">
