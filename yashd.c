@@ -22,6 +22,7 @@ DESCRIPTION:  The program creates a TCP socket in the inet
 #include "threads.h"
 #include "daemon.h"
 #include "my_semaphore.h"
+#include "yash_program.c"
 
 #define MAXHOSTNAME 80
 void reusePort(int sock);
@@ -43,12 +44,12 @@ int main(int argc, char **argv ) {
     int pn;
     uint16_t server_port = 3826;
 
-//    ret = sem_init(&mysem, 0, 1);
-//    if (ret != 0) {
-//        /* error. errno has been set */
-//        perror("Unable to initialize the semaphore");
-//        abort();
-//    }
+    ret = sem_init(&mysem, 0, 1);
+    if (ret != 0) {
+        /* error. errno has been set */
+        perror("Unable to initialize the semaphore");
+        abort();
+    }
 
     if (argc > 1)
         strncpy(u_server_path, argv[1], PATHMAX); /* use argv[1] */
@@ -121,14 +122,14 @@ int main(int argc, char **argv ) {
     fromlen = sizeof(from);
     for(;;){
         pthread_t thr;
-        int i, rc;
+        ssize_t rc;
 /**     create a thread_data_t argument array */
         psd  = accept(sd, (struct sockaddr *)&from, &fromlen);
         thread_data_t thr_data;
         thr_data.from = from;
         thr_data.psd = psd;
         if ((rc = pthread_create(&thr, NULL, EchoServe, &thr_data))) {
-            fprintf(stderr, "error: pthread_create, rc: %d\n", rc);
+            fprintf(stderr, "error: pthread_create, rc: %d\n", (int) rc);
             close(psd);
             return EXIT_FAILURE;
         }
@@ -142,7 +143,7 @@ void *EchoServe(void *arg) {
     int psd = data->psd;
     struct sockaddr_in from = data->from;
     char buf[512];
-    int rc;
+    ssize_t rc;
     struct  hostent *hp, *gethostbyname();
 
     printf("Serving %s:%d\n", inet_ntoa(from.sin_addr),
@@ -162,18 +163,11 @@ void *EchoServe(void *arg) {
         }
         if (rc > 0){
             buf[rc]='\0';
-            printf("Received: %s\n", buf);
-            printf("From TCP/Client: %s:%d\n", inet_ntoa(from.sin_addr), ntohs(from.sin_port));
-            printf("(Name is : %s)\n", hp->h_name);
-            write_to_log(buf, rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
-            if (send(psd, buf, rc, 0) <0 )
+            write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
+            if (send(psd, buf, (size_t) rc, 0) <0 )
                 perror("sending stream message");
         }
         else {
-            printf("TCP/Client: %s:%d\n", inet_ntoa(from.sin_addr),
-                   ntohs(from.sin_port));
-            printf("(Name is : %s)\n", hp->h_name);
-            printf("Disconnected..\n");
             close (psd);
             pthread_exit(NULL);
         }

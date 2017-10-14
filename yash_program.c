@@ -8,7 +8,7 @@
 
 //function declarations
 int executeLine(char **args, char *line);
-void mainLoop(void);
+void mainLoop(char *buf);
 int startPipedOperation(char **args1, char **args2);
 int startOperation(char **args);
 int startBgOperation(char **args);
@@ -21,21 +21,22 @@ int pid_ch1, pid_ch2, pid;
 int activeJobsSize; //goes up and down as jobs finish
 struct Job *jobs;
 int *pactiveJobsSize = &activeJobsSize;
+extern
 
 //main to take arguments and start a loop
 //int yash_prog_loop(int argc, char **argv)
-int yash_prog_loop(void)
+int yash_prog_loop(char *buf)
 {
     jobs = malloc(sizeof(struct Job) * MAX_NUMBER_JOBS);
 
-    mainLoop();
+    mainLoop(buf);
 
     free(jobs);
     return EXIT_SUCCESS;
 }
 
 
-void mainLoop(void)
+void mainLoop(char *buf)
 {
     int status;
     char *line;

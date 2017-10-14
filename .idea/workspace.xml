@@ -13,10 +13,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0941ee4b-b836-4b0a-84f7-8e4c22ca17cc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/a.out" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yash" afterPath="$PROJECT_DIR$/yash" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MakeFile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yashd" afterPath="$PROJECT_DIR$/yashd" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yash.c" afterPath="$PROJECT_DIR$/yash.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/yashd_log/yashd.log" afterPath="$PROJECT_DIR$/tmp/yashd_log/yashd.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/yashd_log/yashd.pid" afterPath="$PROJECT_DIR$/tmp/yashd_log/yashd.pid" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yash_program.c" afterPath="$PROJECT_DIR$/yash_program.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yashd.c" afterPath="$PROJECT_DIR$/yashd.c" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,35 +34,20 @@
       <file leaf-file-name="my_semaphore.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/my_semaphore.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="-305">
               <caret line="36" column="70" lean-forward="false" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
-              <folding>
-                <element signature="e#91#110#0" expanded="true" />
-                <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="yashd.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="yashd.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/yashd.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="914">
-              <caret line="170" column="9" lean-forward="false" selection-start-line="170" selection-start-column="9" selection-end-line="170" selection-end-column="9" />
+            <state relative-caret-position="553">
+              <caret line="146" column="42" lean-forward="true" selection-start-line="146" selection-start-column="42" selection-end-line="146" selection-end-column="42" />
               <folding>
                 <element signature="e#422#444#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="yash.c" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/yash.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="180" column="7" lean-forward="false" selection-start-line="180" selection-start-column="7" selection-end-line="180" selection-end-column="7" />
-              <folding>
-                <element signature="e#184#206#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,16 +56,9 @@
       <file leaf-file-name="yash_program.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yash_program.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="337" column="0" lean-forward="false" selection-start-line="337" selection-start-column="0" selection-end-line="337" selection-end-column="0" />
-              <folding>
-                <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-                <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-                <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-                <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-                <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-                <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-              </folding>
+            <state relative-caret-position="340">
+              <caret line="23" column="6" lean-forward="false" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -85,7 +66,7 @@
       <file leaf-file-name="helpers.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/helpers.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="755">
               <caret line="106" column="14" lean-forward="false" selection-start-line="106" selection-start-column="6" selection-end-line="106" selection-end-column="14" />
               <folding />
             </state>
@@ -108,6 +89,8 @@
       <find>readline</find>
       <find>rbuf</find>
       <find>sleep</find>
+      <find>rc</find>
+      <find>perror</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -123,10 +106,11 @@
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/daemon.h" />
         <option value="$PROJECT_DIR$/semaphore.h" />
-        <option value="$PROJECT_DIR$/yash_program.c" />
         <option value="$PROJECT_DIR$/my_semaphore.h" />
-        <option value="$PROJECT_DIR$/yashd.c" />
         <option value="$PROJECT_DIR$/yash.c" />
+        <option value="$PROJECT_DIR$/MakeFile" />
+        <option value="$PROJECT_DIR$/yash_program.c" />
+        <option value="$PROJECT_DIR$/yashd.c" />
       </list>
     </option>
   </component>
@@ -165,6 +149,11 @@
             <path>
               <item name="yashd" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="yashd" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yashd" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="yashd" type="462c0819:PsiDirectoryNode" />
+              <item name="cmake-build-debug" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -230,12 +219,12 @@
       <workItem from="1507610673420" duration="8126000" />
       <workItem from="1507900469096" duration="9534000" />
       <workItem from="1507910649830" duration="2450000" />
-      <workItem from="1507918430460" duration="8552000" />
+      <workItem from="1507918430460" duration="11173000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78702000" />
+    <option name="totallyTimeSpent" value="81323000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -248,15 +237,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="89" y="-5" width="1849" height="967" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19254313" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14023373" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971016" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998943" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31674758" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31674758" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -282,20 +272,11 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/yashd.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1220">
-          <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding>
-            <element signature="e#422#444#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/daemon.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2180">
           <caret line="109" column="33" lean-forward="true" selection-start-line="109" selection-start-column="33" selection-end-line="109" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -303,14 +284,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
-          <folding>
-            <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -319,8 +293,7 @@
         <state relative-caret-position="520">
           <caret line="26" column="58" lean-forward="false" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
           <folding>
-            <element signature="e#91#110#0" expanded="true" />
-            <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
+            <element signature="e#91#110#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -349,14 +322,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
-          <folding>
-            <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -365,8 +331,7 @@
         <state relative-caret-position="520">
           <caret line="26" column="58" lean-forward="false" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
           <folding>
-            <element signature="e#91#110#0" expanded="true" />
-            <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
+            <element signature="e#91#110#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -395,14 +360,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
-          <folding>
-            <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -411,8 +369,7 @@
         <state relative-caret-position="520">
           <caret line="26" column="58" lean-forward="true" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
           <folding>
-            <element signature="e#91#110#0" expanded="true" />
-            <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
+            <element signature="e#91#110#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -441,14 +398,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
-          <folding>
-            <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -457,8 +407,7 @@
         <state relative-caret-position="700">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
           <folding>
-            <element signature="e#91#110#0" expanded="true" />
-            <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
+            <element signature="e#91#110#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -487,14 +436,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
-          <folding>
-            <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -503,8 +445,7 @@
         <state relative-caret-position="700">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
           <folding>
-            <element signature="e#91#110#0" expanded="true" />
-            <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
+            <element signature="e#91#110#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -533,14 +474,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8980">
           <caret line="449" column="21" lean-forward="false" selection-start-line="449" selection-start-column="21" selection-end-line="449" selection-end-column="21" />
-          <folding>
-            <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -549,8 +483,7 @@
         <state relative-caret-position="700">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
           <folding>
-            <element signature="e#91#110#0" expanded="true" />
-            <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
+            <element signature="e#91#110#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -579,14 +512,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8200">
           <caret line="410" column="0" lean-forward="false" selection-start-line="410" selection-start-column="0" selection-end-line="419" selection-end-column="1" />
-          <folding>
-            <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -595,8 +521,7 @@
         <state relative-caret-position="700">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
           <folding>
-            <element signature="e#91#110#0" expanded="true" />
-            <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
+            <element signature="e#91#110#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -625,14 +550,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6970">
           <caret line="410" column="0" lean-forward="false" selection-start-line="410" selection-start-column="0" selection-end-line="419" selection-end-column="1" />
-          <folding>
-            <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -641,8 +559,7 @@
         <state relative-caret-position="595">
           <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
           <folding>
-            <element signature="e#91#110#0" expanded="true" />
-            <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
+            <element signature="e#91#110#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -713,13 +630,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmake-build-debug/Makefile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1540">
-          <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/yash1" />
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/yashd.cbp">
       <provider selected="true" editor-type-id="text-editor">
@@ -732,19 +642,55 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
           <caret line="34" column="48" lean-forward="false" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yash.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="40" column="15" lean-forward="true" selection-start-line="40" selection-start-column="15" selection-end-line="40" selection-end-column="15" />
+          <folding>
+            <element signature="e#184#206#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-305">
+          <caret line="36" column="70" lean-forward="false" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmake-build-debug/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3805">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="53" lean-forward="true" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
+        <state relative-caret-position="140">
+          <caret line="7" column="89" lean-forward="false" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="89" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MakeFile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="21" column="14" lean-forward="true" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/helpers.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="755">
           <caret line="106" column="14" lean-forward="false" selection-start-line="106" selection-start-column="6" selection-end-line="106" selection-end-column="14" />
           <folding />
         </state>
@@ -752,46 +698,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/yash_program.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="337" column="0" lean-forward="false" selection-start-line="337" selection-start-column="0" selection-end-line="337" selection-end-column="0" />
-          <folding>
-            <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11462:11493" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11528:11560" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11588:11951" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="11980:12125" ph="{...}" />
-            <marker date="1507916721386" expanded="true" signature="12162:12578" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/my_semaphore.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="36" column="70" lean-forward="false" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
-          <folding>
-            <element signature="e#91#110#0" expanded="true" />
-            <marker date="1507916721386" expanded="true" signature="388:2551" ph="{...}" />
-          </folding>
+        <state relative-caret-position="340">
+          <caret line="23" column="6" lean-forward="false" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/yashd.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="914">
-          <caret line="170" column="9" lean-forward="false" selection-start-line="170" selection-start-column="9" selection-end-line="170" selection-end-column="9" />
+        <state relative-caret-position="553">
+          <caret line="146" column="42" lean-forward="true" selection-start-line="146" selection-start-column="42" selection-end-line="146" selection-end-column="42" />
           <folding>
             <element signature="e#422#444#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yash.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="180" column="7" lean-forward="false" selection-start-line="180" selection-start-column="7" selection-end-line="180" selection-end-column="7" />
-          <folding>
-            <element signature="e#184#206#0" expanded="true" />
           </folding>
         </state>
       </provider>
