@@ -142,6 +142,10 @@ void *EchoServe(void *arg) {
     char buf[512];
     ssize_t rc;
     struct  hostent *hp, *gethostbyname();
+    int pthread_pipe_fd[2];
+    int new_pid;
+    char **args;
+    char *buf_copy;
     dup2(psd, STDOUT_FILENO);
 
     char *prompt;
@@ -154,24 +158,53 @@ void *EchoServe(void *arg) {
                             sizeof(from.sin_addr.s_addr),AF_INET)) == NULL)
         fprintf(stderr, "Can't find host %s\n", inet_ntoa(from.sin_addr));
 
+    if(pipe(pthread_pipe_fd) ==-1){
+        perror("pthread pipe\n");
+        exit(-1);
+    }
+
     /**  get data from  clients and send it back */
-    for(;;){
-        cleanup(buf);
-        if( (rc=recv(psd, buf, sizeof(buf), 0)) < 0){
-            perror("receiving stream  message");
-            exit(-1);
+
+    new_pid = fork();
+    if(new_pid == 0) {
+        close(pthread_pipe_fd[1]);
+        dup2(pthread_pipe_fd[0], STDIN_FILENO);
+        yash_prog_loop(buf, psd);
+    }
+    else if (new_pid > 0){
+        close(pthread_pipe_fd[0]);
+        dup2(pthread_pipe_fd[1],STDOUT_FILENO);
+        for(;;){
+            cleanup(buf);
+            cleanup(buf_copy);
+            if( (rc=recv(psd, buf, sizeof(buf), 0)) < 0){
+                perror("receiving stream  message");
+                exit(-1);
+            }
+            if (rc > 0){
+                buf[rc]='\0';
+                buf_copy = strdup(buf);
+                args = parseLine(buf_copy);
+                if (strcmp(args[0], "CTL") == 0) {
+                    if (strcmp(args[1], "c") == 0) kill(new_pid, SIGINT);
+                    if (strcmp(args[1], "z") == 0) kill(new_pid, SIGTSTP);
+                }
+                if (strcmp(args[0], "CMD") == 0) {
+                    write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
+                    printf("%s",buf);
+                    fflush(stdout);
+                }
+            }
         }
-        if (rc > 0){
-            buf[rc]='\0';
-            write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
-            yash_prog_loop(buf, psd);
-        }
+    }
+
+
 //        else {
 //            printf("exiting\n");
 //            close (psd);
 //            pthread_exit(NULL);
 //        }
-    }
+
 }
 void reusePort(int s)
 {

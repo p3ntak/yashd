@@ -18,17 +18,15 @@ void yash_prog_loop(char *buf_passed, int psd_passed)
     buf = strdup(buf_passed);
 
     mainLoop();
-
-    fflush(stdout);
 //    return EXIT_SUCCESS;
 }
 
 void mainLoop(void)
 {
+    int status = 0;
     char *line;
     char **args;
     activeJobsSize = 0;
-    dup2(psd, STDOUT_FILENO);
 
     //read input line
     //parse input
@@ -38,28 +36,27 @@ void mainLoop(void)
     signal(SIGINT, sig_handler);
     signal(SIGTSTP, sig_handler);
     char *prompt;
-
-    line = strdup(buf);
-    if(line == NULL)
-    {
-        printf("\n");
-        killProcs(jobs, pactiveJobsSize);
-        return;
-    }
-    if(strcmp(line,"") == 0) return;
-    char *lineCpy = strdup(line);
-    args = parseLine(line);
-    char **fixed_args;
-    if(strcmp(args[0], "CTL") == 0){
-        if(strcmp(args[1], "c") == 0) raise(SIGINT);
-        if(strcmp(args[1], "z") == 0) raise(SIGTSTP);
-    }
-    if(strcmp(args[0], "CMD") == 0) {
-        fixed_args = &args[1];
-        executeLine(fixed_args, lineCpy);
-    }
     prompt = strdup("\n# ");
-    send_response(prompt);
+    do {
+        line = readLineIn();
+        if (line == NULL) {
+            printf("\n");
+            killProcs(jobs, pactiveJobsSize);
+            return;
+        }
+        if (strcmp(line, "") == 0) return;
+        char *lineCpy = strdup(line);
+        args = parseLine(line);
+        char **fixed_args;
+        if (strcmp(args[0], "CMD") == 0) {
+            fixed_args = &args[1];
+        }
+        status = executeLine(fixed_args, lineCpy);
+        fflush(stdout);
+
+        printf("%s",prompt);
+        fflush(stdout);
+    } while(status);
     return;
 }
 
@@ -195,7 +192,6 @@ int startOperation(char **args)
     pid_ch1 = fork();
     if(pid_ch1 == 0)
     {
-        dup2(psd, STDOUT_FILENO);
         // child process
         if (redirOut >= 0)
         {
@@ -437,14 +433,19 @@ void fg_handler(int signo)
 }
 
 static void sig_handler(int signo) {
+    char *resp;
     switch(signo){
         case SIGINT:
             signal(signo,SIG_IGN);
             signal(SIGINT,sig_handler);
+            resp = strdup("ctrl c received\n");
+            send_response(resp);
             break;
         case SIGTSTP:
             signal(signo,SIG_IGN);
             signal(SIGTSTP,sig_handler);
+            resp = strdup("ctrl z received\n");
+            send_response(resp);
             break;
         case SIGCHLD:
             signal(signo,SIG_IGN);

@@ -15,7 +15,7 @@
 
 
 #define MAXHOSTNAME 80
-#define BUFSIZE 1024
+#define BUFSIZE 50000
 #define MAX_INPUT_LENGTH 200
 
 static void client_sig_handler(int signo);

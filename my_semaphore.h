@@ -34,6 +34,8 @@ void write_to_log(char *buffer, size_t buffer_size, char *host_address, int host
         }
     } while (ret != 0);
 
+    sleep(10);
+
     current_time = time(NULL);
     if (current_time == ((time_t)-1)){
         (void) fprintf(stderr, "Failure to obtain the current time.\n");
