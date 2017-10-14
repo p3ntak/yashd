@@ -28,7 +28,6 @@ void mainLoop(void)
     char *line;
     char **args;
     activeJobsSize = 0;
-    dup2(psd, STDOUT_FILENO);
 
     //read input line
     //parse input
@@ -195,7 +194,6 @@ int startOperation(char **args)
     pid_ch1 = fork();
     if(pid_ch1 == 0)
     {
-        dup2(psd, STDOUT_FILENO);
         // child process
         if (redirOut >= 0)
         {
