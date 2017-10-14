@@ -19,10 +19,9 @@ void yash_prog_loop(char *buf_passed, int psd_passed)
 
     mainLoop();
 
-
+    fflush(stdout);
 //    return EXIT_SUCCESS;
 }
-
 
 void mainLoop(void)
 {

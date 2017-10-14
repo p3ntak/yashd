@@ -95,8 +95,7 @@ void daemon_init(const char * const path, uint mask)
     /* From this point on printf and scanf have no effect */
 
     /* Redirecting stderr to u_log_path */
-    log = fopen(u_log_path, "aw"); /* attach stderr to u_log_path */
-    fd = fileno(log);  /* obtain file descriptor of the log */
+    fd = open("/dev/null", O_WRONLY);
     dup2(fd, STDERR_FILENO);
     close (fd);
     /* From this point on printing to stderr will go to /tmp/u-echod.log */
