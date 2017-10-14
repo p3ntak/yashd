@@ -30,11 +30,9 @@ void write_to_log(char *buffer, size_t buffer_size, char *host_address, int host
                 pthread_exit(NULL);
             } else {
                 /* sem_wait() has been interrupted by a signal: looping again */
-                printf(" -- thread A -- sem_wait interrupted. Trying again for the lock...\n");
             }
         }
     } while (ret != 0);
-    printf(" -- thread A -- lock acquired. Enter critical section\n");
 
     current_time = time(NULL);
     if (current_time == ((time_t)-1)){
@@ -73,7 +71,6 @@ void write_to_log(char *buffer, size_t buffer_size, char *host_address, int host
         fwrite(final_string,final_string_size,1,log);
     }
     fclose(log);
-    printf(" -- thread A -- leaving critical section\n");
     ret = sem_post(&mysem);
     if (ret != 0) {
         perror(" -- thread A -- Error in sem_post");

@@ -1,178 +1,1179 @@
- 16832----TCP/Server running at host NAME: ubuntu
+ 24570----TCP/Server running at host NAME: ubuntu
     (TCP/Server INET ADDRESS is: 127.0.1.1 )
 Server Port is: 3826
-Serving 127.0.0.1:36418
-(Name is : localhost)
-
-...server is waiting...
-Serving 127.0.0.1:36420
-(Name is : localhost)
-
-...server is waiting...
-TCP/Client: 127.0.0.1:36418
-(Name is : localhost)
-Disconnected..
-Received: still connected?
-
-From TCP/Client: 127.0.0.1:36420
+Serving 127.0.0.1:58614
 (Name is : localhost)
  -- thread A -- lock acquired. Enter critical section
  -- thread A -- leaving critical section
-
-...server is waiting...
-TCP/Client: 127.0.0.1:36420
-(Name is : localhost)
-Disconnected..
-Serving 127.0.0.1:36430
-(Name is : localhost)
-
-...server is waiting...
-Serving 127.0.0.1:36432
-(Name is : localhost)
-
-...server is waiting...
-Received: CMD t
-From TCP/Client: 127.0.0.1:36430
-(Name is : localhost)
+test
+test2
+test3
+test4
+- thread A -- lock acquired. Enter critical section
+ -- thread A -- leaving critical section
+ction
+ -- thread A -- leaving critical section
+yash: No active jobs
  -- thread A -- lock acquired. Enter critical section
  -- thread A -- leaving critical section
 
-...server is waiting...
-Received: CMD t
-From TCP/Client: 127.0.0.1:36432
-(Name is : localhost)
  -- thread A -- lock acquired. Enter critical section
  -- thread A -- leaving critical section
 
-...server is waiting...
-TCP/Client: 127.0.0.1:36430
-(Name is : localhost)
-Disconnected..
-TCP/Client: 127.0.0.1:36432
-(Name is : localhost)
-Disconnected..
-Serving 127.0.0.1:36434
-(Name is : localhost)
-
-...server is waiting...
-Serving 127.0.0.1:36436
-(Name is : localhost)
-
-...server is waiting...
-Received: CMD t
-From TCP/Client: 127.0.0.1:36436
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
-Received: CMD t
-From TCP/Client: 127.0.0.1:36434
-(Name is : localhost)
- -- thread A -- leaving critical section
- -- thread A -- lock acquired. Enter critical section
-
-...server is waiting...
- -- thread A -- leaving critical section
-
-...server is waiting...
-TCP/Client: 127.0.0.1:36434
-(Name is : localhost)
-Disconnected..
-TCP/Client: 127.0.0.1:36436
-(Name is : localhost)
-Disconnected..
-Serving 127.0.0.1:36438
-(Name is : localhost)
-
-...server is waiting...
-Received: CMD test
-
-From TCP/Client: 127.0.0.1:36438
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-
-...server is waiting...
-Received: CMD 
-
-From TCP/Client: 127.0.0.1:36438
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-
-...server is waiting...
-Received: CMD CTL c
-
-From TCP/Client: 127.0.0.1:36438
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-
-...server is waiting...
-Received: CMD 
-
-From TCP/Client: 127.0.0.1:36438
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
-Serving 127.0.0.1:36440
-(Name is : localhost)
-
-...server is waiting...
-Serving 127.0.0.1:36442
-(Name is : localhost)
-
-...server is waiting...
- -- thread A -- leaving critical section
-
-...server is waiting...
-TCP/Client: 127.0.0.1:36438
-(Name is : localhost)
-Disconnected..
-Received: test
-
-From TCP/Client: 127.0.0.1:36440
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-
-...server is waiting...
-Received: test
-
-From TCP/Client: 127.0.0.1:36440
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-
-...server is waiting...
-Received: test
-
-From TCP/Client: 127.0.0.1:36440
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-
-...server is waiting...
-TCP/Client: 127.0.0.1:36440
-(Name is : localhost)
-Disconnected..
-Received: test
-
-From TCP/Client: 127.0.0.1:36442
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-
-...server is waiting...
-TCP/Client: 127.0.0.1:36442
-(Name is : localhost)
-Disconnected..
-Serving 127.0.0.1:36446
-(Name is : localhost)
-
-...server is waiting...
-Received: CTL c
-
-From TCP/Client: 127.0.0.1:36446
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-
-...server is waitin
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+#

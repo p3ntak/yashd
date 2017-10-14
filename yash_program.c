@@ -1,42 +1,30 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <string.h>
 #include "helpers.h"
-#include <fcntl.h>
-
-//function declarations
-int executeLine(char **args, char *line);
-void mainLoop(char *buf);
-int startPipedOperation(char **args1, char **args2);
-int startOperation(char **args);
-int startBgOperation(char **args);
-static void sig_int(int signo);
-static void sig_tstp(int signo);
-static void sig_handler(int signo);
-
 // Global Vars
 int pid_ch1, pid_ch2, pid;
 int activeJobsSize; //goes up and down as jobs finish
 struct Job *jobs;
 int *pactiveJobsSize = &activeJobsSize;
-extern
+int psd;
+char *buf;
+int rc;
+
 
 //main to take arguments and start a loop
 //int yash_prog_loop(int argc, char **argv)
-int yash_prog_loop(char *buf)
+int yash_prog_loop(char *buf_passed, int psd_passed)
 {
     jobs = malloc(sizeof(struct Job) * MAX_NUMBER_JOBS);
+    psd = psd_passed;
+    buf = strdup(buf_passed);
 
-    mainLoop(buf);
+    mainLoop();
 
-    free(jobs);
+
     return EXIT_SUCCESS;
 }
 
 
-void mainLoop(char *buf)
+void mainLoop(void)
 {
     int status;
     char *line;
@@ -47,25 +35,35 @@ void mainLoop(char *buf)
     //parse input
     //stay in loop until an exit is requested
     //while waiting for user input SIGINT is ignored so ctrl+c will not stop the shell
-    do
+    // ignore sigint and sigtstp while waiting for input
+    signal(SIGINT, sig_handler);
+    signal(SIGTSTP, sig_handler);
+    char *prompt;
+
+    line = strdup(buf);
+    if(line == NULL)
     {
-        // ignore sigint and sigtstp while waiting for input
-        signal(SIGINT, sig_handler);
-        signal(SIGTSTP, sig_handler);
-        printf("# ");
-//        line = readLineIn();
-        if(line == NULL)
-        {
-            printf("\n");
-            killProcs(jobs, pactiveJobsSize);
-            break;
-        }
-        if(strcmp(line,"") == 0) continue;
-        char *lineCpy = strdup(line);
-        args = parseLine(line);
-        status = executeLine(args, lineCpy);
         printf("\n");
-    } while(status);
+        killProcs(jobs, pactiveJobsSize);
+        return;
+    }
+    if(strcmp(line,"") == 0) return;
+    char *lineCpy = strdup(line);
+    args = parseLine(line);
+    char **fixed_args;
+    if(strcmp(args[0], "CTL") == 0){
+        if(strcmp(args[1], "c") == 0) raise(SIGINT);
+        if(strcmp(args[1], "z") == 0) raise(SIGTSTP);
+    }
+    if(strcmp(args[0], "CMD") == 0) {
+        fixed_args = &args[1];
+        executeLine(fixed_args, lineCpy);
+    }
+    printf("\n");
+    rc = (int) strlen(buf);
+    send_response(buf);
+    prompt = strdup("# ");
+    send_response(prompt);
     return;
 }
 
@@ -205,6 +203,7 @@ int startOperation(char **args)
     pid_ch1 = fork();
     if(pid_ch1 == 0)
     {
+        dup2(psd, STDOUT_FILENO);
         // child process
         if (redirOut >= 0)
         {
@@ -463,4 +462,439 @@ static void sig_handler(int signo) {
             return;
     }
 
+}
+
+void cleanup(char *buf)
+{
+    int i;
+    int buf_size = (int) strlen(buf) + 1;
+    for(i=0; i<buf_size; i++) buf[i]='\0';
+}
+
+void send_response(char *send_str) {
+    rc = (int) strlen(send_str);
+    if (send(psd, send_str, (size_t) rc, 0) < 0)
+        perror("sending stream message");
+    cleanup(send_str);
+}
+
+//returns how many '|' are in the arguments
+int pipeQty(char **args)
+{
+    int pipeCount = 0;
+    int numArgs = countArgs(args);
+    for (int i=0; i<numArgs;i++)
+    {
+        if(strstr(args[i],"|") && strlen(args[i]) == 1) pipeCount++;
+    }
+    return pipeCount;
+}
+
+//returns 0 if pipe and & are not exclusive
+int pipeBGExclusive(char **args)
+{
+    int pipeCount = 0;
+    int backgroundCount = 0;
+    int numArgs = countArgs(args);
+    for (int i=0; i<numArgs; i++)
+    {
+        if(strstr(args[i],"|")) pipeCount++;
+        if(strstr(args[i],"&")) backgroundCount++;
+    }
+    if((pipeCount>0) && (backgroundCount>0))
+    {
+        return 0;
+    }
+    return 1;
+}
+
+//determine how many arguments were given to input
+int countArgs(char **args)
+{
+    if(!*args) return 0;
+    int numArgs = 0;
+    int i=0;
+    while(args[i] != NULL)
+    {
+        numArgs++;
+        i++;
+    }
+    return numArgs;
+}
+
+//read input until end of file or new line
+char *readLineIn(void)
+{
+    char *line = calloc(MAX_INPUT_LENGTH + 1, sizeof(char));
+
+    if(!line)
+    {
+        fprintf(stderr,"line in memory allocation error\n");
+        exit(EXIT_FAILURE);
+    }
+
+    line = fgets(line,MAX_INPUT_LENGTH+1,stdin);
+    if(line == NULL)
+        return NULL;
+    if(strcmp(line,"\n") == 0) return "";
+    char *lineCopy = strdup(line);
+
+    free(line);
+    return lineCopy;
+}
+
+// the following line parser was taken from https://brennan.io/2015/01/16/write-a-shell-in-c/
+#define LSH_TOK_BUFSIZE 64
+#define LSH_TOK_DELIM " \t\r\n\a"
+char **parseLine(char *line)
+{
+    int bufsize = LSH_TOK_BUFSIZE, position = 0;
+    char **tokens = malloc(bufsize * sizeof(char*));
+    char *token;
+
+    if (!tokens) {
+        fprintf(stderr, "lsh: allocation error\n");
+        exit(EXIT_FAILURE);
+    }
+
+    token = strtok(line, LSH_TOK_DELIM);
+    while (token != NULL) {
+        tokens[position] = token;
+        position++;
+
+        if (position >= bufsize) {
+            bufsize += LSH_TOK_BUFSIZE;
+            tokens = realloc(tokens, bufsize * sizeof(char*));
+            if (!tokens) {
+                fprintf(stderr, "lsh: allocation error\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        token = strtok(NULL, LSH_TOK_DELIM);
+    }
+    tokens[position] = NULL;
+    return tokens;
+}
+
+// splits a piped argument into a struct containing two separate arguments
+struct PipedArgs getTwoArgs(char **args)
+{
+    char **args1 = malloc(sizeof(char*) * MAX_INPUT_LENGTH);
+    char **args2 = malloc(sizeof(char*) * MAX_INPUT_LENGTH);
+    int numArgs = countArgs(args);
+    int i = 0;
+    int k = 0;
+    while(!strstr(args[i],"|"))
+    {
+        args1[k] = args[i];
+        i++;
+        k++;
+    };
+    args1[k] = NULL;
+    i++;
+    int j = 0;
+    while(i < numArgs)
+    {
+        args2[j] = args[i];
+        i++;
+        j++;
+    };
+    args2[j] = NULL;
+    struct PipedArgs pipedArgs = {args1, args2};
+    return pipedArgs;
+}
+
+// add a process to jobs table
+void addToJobs(struct Job *jobs, char *line, int *activeJobsSize)
+{
+    jobs[*activeJobsSize].line = strdup(line);
+
+    if(*activeJobsSize == 0)
+        jobs[*activeJobsSize].task_no = 1;
+    else
+        jobs[*activeJobsSize].task_no = jobs[*activeJobsSize-1].task_no + 1;
+
+    jobs[*activeJobsSize].runningStatus = STOPPED;
+    jobs[*activeJobsSize].pid_no = 0;
+
+    (*activeJobsSize)++;
+    return;
+}
+
+// built in jobs command. prints out each job's pid number, jobs number, and status
+int yash_jobs(struct Job *jobs, int activeJobsSize)
+{
+    for(int i=0; i<activeJobsSize; i++)
+    {
+        char *runningStr;
+
+        if(jobs[i].runningStatus)
+            runningStr = "Running";
+        else
+            runningStr = "Stopped";
+
+        if(i == activeJobsSize-1)
+            printf("[%d] + %s    %s\n", jobs[i].task_no, runningStr , jobs[i].line);
+        else
+            printf("[%d] - %s    %s\n", jobs[i].task_no, runningStr, jobs[i].line);
+    }
+    if(activeJobsSize == 0) printf("No active jobs\n");
+    return FINISHED_INPUT;
+}
+
+// built in fg command. puts the most recent command from the jobs table into the foreground
+void yash_fg(struct Job *jobs, int activeJobSize)
+{
+    int status;
+    signal(SIGCONT, SIG_DFL);
+
+    if(activeJobSize == 0)
+    {
+        printf("yash: No active jobs");
+        return;
+    }
+
+    int pid = jobs[activeJobSize - 1].pid_no;
+    setJobStatus(jobs, pid, activeJobSize, RUNNING);
+    for(int i=0; i<activeJobSize; i++)
+    {
+        char *runningStr;
+        if(jobs[i].runningStatus)
+            runningStr = "Running";
+        else
+            runningStr = "Stopped";
+        if(i == activeJobSize-1)
+        {
+            if(jobs[i].pid_no == pid)
+                printf("[%d] + %s    %s\n", jobs[i].task_no, runningStr , jobs[i].line);
+
+        } else
+        {
+            if(jobs[i].pid_no == pid)
+                printf("[%d] - %s    %s\n", jobs[i].task_no, runningStr, jobs[i].line);
+        }
+    }
+    signal(SIGCHLD, fg_handler);
+    kill(pid, SIGCONT);
+    wait(NULL);
+    return;
+}
+
+// build in bg command. puts the most recent stopped job in the background
+void yash_bg(struct Job *jobs, int activeJobSize)
+{
+    int pid=0;
+    signal(SIGCONT, SIG_DFL);
+
+    if(activeJobSize == 0)
+    {
+        printf("yash: No active jobs");
+        return;
+    }
+    for(int i=activeJobSize-1; i>=0; i--)
+    {
+        if(pipeQty(parseLine(jobs[i].line)) != 0) continue;
+        if(jobs[i].runningStatus == STOPPED)
+        {
+            pid = jobs[i].pid_no;
+            break;
+        }
+    }
+    setJobStatus(jobs, pid, activeJobSize, RUNNING);
+    for(int i=0; i<activeJobSize; i++)
+    {
+        char *runningStr;
+
+        if(jobs[i].runningStatus)
+            runningStr = "Running";
+        else
+            runningStr = "Stopped";
+
+        if(i == activeJobSize-1)
+        {
+            if(jobs[i].pid_no == pid)
+                printf("[%d] + %s    %s\n", jobs[i].task_no, runningStr , jobs[i].line);
+
+        } else
+        {
+            if(jobs[i].pid_no == pid)
+                printf("[%d] - %s    %s\n", jobs[i].task_no, runningStr, jobs[i].line);
+        }
+    }
+    signal(SIGCHLD, proc_exit);
+    kill(pid, SIGCONT);
+    return;
+}
+
+// updates the jobs table with the pid number and gives the job a 'running' status
+void startJobsPID(struct Job *jobs, int pid, int activeJobsSize)
+{
+    jobs[activeJobsSize-1].pid_no = pid;
+    jobs[activeJobsSize-1].runningStatus = RUNNING;
+    return;
+}
+
+// removes a job by pid number from the jobs table. should be used when a job is finished or killed.
+void removeFromJobs(struct Job *jobs, int pid, int *activeJobsSize)
+{
+    for(int i=0; i<*activeJobsSize; i++)
+    {
+        if((jobs[i].pid_no == pid))
+        {
+            for(int j=i; j<(*activeJobsSize-1); j++)
+            {
+                jobs[j].pid_no = jobs[j+1].pid_no;
+                jobs[j].runningStatus = jobs[j+1].runningStatus;
+                jobs[j].task_no = jobs[j+1].task_no;
+                jobs[j].line = strdup(jobs[j+1].line);
+            }
+            jobs[*activeJobsSize-1].pid_no = 0;
+            jobs[*activeJobsSize-1].runningStatus = STOPPED;
+            jobs[*activeJobsSize-1].task_no = 0;
+            jobs[*activeJobsSize-1].line = NULL;
+            (*activeJobsSize)--;
+        }
+    }
+    return;
+}
+
+// changes the status of a job in the jobs table in the event that it is stopped or restarted
+void setJobStatus(struct Job *jobs, int pid, int activeJobsSize, int runningStatus)
+{
+    for(int i=0; i<activeJobsSize; i++)
+    {
+        if(jobs[i].pid_no == pid) jobs[i].runningStatus = runningStatus;
+    }
+    return;
+}
+
+// kills all process in the jobs table in the event that the shell is killed with ctrl + d
+void killProcs(struct Job *jobs, int *activeJobsSize)
+{
+    for(int i=0; i<*activeJobsSize; i++)
+    {
+        kill(-jobs[i].pid_no, SIGINT);
+        removeFromJobs(jobs, jobs[i].pid_no, activeJobsSize);
+        (*activeJobsSize)--;
+    }
+}
+
+// checks if the input arguments contain an & as an argument
+int containsAmp(char **args)
+{
+    int argCount = countArgs(args);
+    for (int i=0; i<argCount; i++)
+    {
+        if(strstr(args[i],"&")) return 1;
+    }
+    return 0;
+}
+
+// removes the most recent job from the jobs table in the event that the job was put in the table but killed before
+// the pid no was assigned
+void removeLastFromJobs(struct Job *jobs, int *activeJobsSize)
+{
+    jobs[*activeJobsSize-1].pid_no = 0;
+    jobs[*activeJobsSize-1].runningStatus = STOPPED;
+    jobs[*activeJobsSize-1].task_no = 0;
+    jobs[*activeJobsSize-1].line = NULL;
+
+    (*activeJobsSize)--;
+    return;
+}
+
+// removes the '&' from the input arguments so the path command can be executed
+void removeAmp(char **args)
+{
+    int argCount = countArgs(args);
+    if(strcmp(args[argCount-1],"&") == 0)
+        args[argCount-1] = NULL;
+    return;
+}
+
+// checks if input arguments have a '<' symbol and returns the index of the symbol in the args array
+int containsInRedir(char **args)
+{
+    int symbolPos = -1; // return -1 if '<' is not in args
+    int argCount = countArgs(args);
+
+    for(int i=0; i<argCount; i++)
+    {
+        if(strcmp(args[i],"<") == 0)
+            symbolPos = i;
+    }
+
+    return symbolPos;
+}
+
+// checks if input arguments have a '>' symbol and returns the index of the symbol in the args array
+int containsOutRedir(char **args)
+{
+    int symbolPos = -1; // return -1 if '<' is not in args
+    int argCount = countArgs(args);
+
+    for(int i=0; i<argCount; i++)
+    {
+        if(strcmp(args[i],">") == 0)
+            symbolPos = i;
+    }
+
+    return symbolPos;
+}
+
+// removes the redirect argument and the next argument in the array. assumes the next argument is the name of the file
+// any additional input in the args command will not be recognized by path command
+void removeRedirArgs(char **args, int redirIndex)
+{
+    args[redirIndex] = NULL;
+    args[redirIndex + 1] = NULL;
+    return;
+}
+
+// set stdout to go to file specified by the writeFilePointer
+int setRedirOut(char **args, int redirOut, FILE *writeFilePointer, int argCount)
+{
+    if (redirOut + 1 < argCount)
+    {
+        writeFilePointer = fopen(args[redirOut + 1], "w+");
+        if (writeFilePointer)
+        {
+            dup2(fileno(writeFilePointer), STDOUT_FILENO);
+            removeRedirArgs(args, redirOut);
+        } else
+        {
+            fprintf(stderr, "Cannot open file %s\n", args[redirOut + 1]);
+            return -1; // return -1 as error value
+        }
+    } else
+    {
+        fprintf(stderr, "Invalid Expression\n");
+        return -1; // return -1 as error value
+    }
+
+    return 1; // Finished without error
+}
+
+int setRedirIn(char **args, int redirIn, FILE *readFilePointer, int argCount)
+{
+    if (redirIn + 1 < argCount)
+    {
+        readFilePointer = fopen(args[redirIn + 1], "r");
+        if (readFilePointer)
+        {
+            dup2(fileno(readFilePointer), STDIN_FILENO);
+            removeRedirArgs(args, redirIn);
+        } else
+        {
+            fprintf(stderr, "Cannot open file %s\n", args[redirIn + 1]);
+            return -1;
+        }
+    } else
+    {
+        fprintf(stderr, "Invalid Expression\n");
+        return -1;
+    }
+
+    return 1;
 }

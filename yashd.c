@@ -28,6 +28,7 @@ DESCRIPTION:  The program creates a TCP socket in the inet
 void reusePort(int sock);
 void *EchoServe(void *arg);
 
+
 // TODO: put main in a main loop so we can exit main without killing the yashd
 int ret;
 sem_t mysem;
@@ -72,13 +73,11 @@ int main(int argc, char **argv ) {
     gethostname(ThisHost, MAXHOSTNAME);
     /* OR strcpy(ThisHost,"localhost"); */
 
-    printf("----TCP/Server running at host NAME: %s\n", ThisHost);
     if  ( (hp = gethostbyname(ThisHost)) == NULL ) {
         fprintf(stderr, "Can't find host %s\n", argv[1]);
         exit(-1);
     }
     bcopy ( hp->h_addr, &(server.sin_addr), hp->h_length);
-    printf("    (TCP/Server INET ADDRESS is: %s )\n", inet_ntoa(server.sin_addr));
 
 
 
@@ -115,7 +114,6 @@ int main(int argc, char **argv ) {
         perror("getting socket name");
         exit(0);
     }
-    printf("Server Port is: %d\n", ntohs(server.sin_port));
 
     /** accept TCP connections from clients and fork a process to serve each */
     listen(sd,4);
@@ -145,18 +143,15 @@ void *EchoServe(void *arg) {
     char buf[512];
     ssize_t rc;
     struct  hostent *hp, *gethostbyname();
+    dup2(psd, STDOUT_FILENO);
 
-    printf("Serving %s:%d\n", inet_ntoa(from.sin_addr),
-           ntohs(from.sin_port));
     if ((hp = gethostbyaddr((char *)&from.sin_addr.s_addr,
                             sizeof(from.sin_addr.s_addr),AF_INET)) == NULL)
         fprintf(stderr, "Can't find host %s\n", inet_ntoa(from.sin_addr));
-    else
-        printf("(Name is : %s)\n", hp->h_name);
 
     /**  get data from  clients and send it back */
     for(;;){
-        printf("\n...server is waiting...\n");
+        cleanup(buf);
         if( (rc=recv(psd, buf, sizeof(buf), 0)) < 0){
             perror("receiving stream  message");
             exit(-1);
@@ -164,8 +159,7 @@ void *EchoServe(void *arg) {
         if (rc > 0){
             buf[rc]='\0';
             write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
-            if (send(psd, buf, (size_t) rc, 0) <0 )
-                perror("sending stream message");
+            yash_prog_loop(buf, psd);
         }
         else {
             close (psd);

@@ -128,6 +128,10 @@ int main(int argc, char **argv ) {
             perror("receiving stream  message");
             exit(-1);
         }
+        if(strncmp(rbuf, "#", 1) == 0) {
+            printf("string has #\n");
+            printf("%s", rbuf);
+        }
         if (rc > 0){
             rbuf[rc]='\0';
             printf("%s\n", rbuf);
@@ -143,7 +147,8 @@ int main(int argc, char **argv ) {
 void cleanup(char *buf)
 {
     int i;
-    for(i=0; i<BUFSIZE; i++) buf[i]='\0';
+    int buf_size = (int) strlen(buf) + 1;
+    for(i=0; i<buf_size; i++) buf[i]='\0';
 }
 
 void GetUserInput()
@@ -165,7 +170,7 @@ void GetUserInput()
                 strcat(yash_proto_buf, cmd);
                 strcat(yash_proto_buf, buf);
                 rc = strlen(yash_proto_buf);
-                if (send(sd, yash_proto_buf, rc, 0) < 0)
+                if (send(sd, yash_proto_buf, (size_t) rc, 0) < 0)
                     perror("sending stream message");
             }
         }
