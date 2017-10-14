@@ -190,10 +190,10 @@ void *EchoServe(void *arg) {
                     if (strcmp(args[1], "z") == 0) kill(new_pid, SIGTSTP);
                 }
                 if (strcmp(args[0], "CMD") == 0) {
-                    write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
                     printf("%s",buf);
                     fflush(stdout);
                 }
+                write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
             }
         }
     }
