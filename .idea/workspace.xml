@@ -13,13 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0941ee4b-b836-4b0a-84f7-8e4c22ca17cc" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/a.out" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yash" afterPath="$PROJECT_DIR$/yash" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yashd" afterPath="$PROJECT_DIR$/yashd" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/yashd_log/yashd.log" afterPath="$PROJECT_DIR$/tmp/yashd_log/yashd.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/yashd_log/yashd.pid" afterPath="$PROJECT_DIR$/tmp/yashd_log/yashd.pid" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yash.c" afterPath="$PROJECT_DIR$/yash.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yashd.c" afterPath="$PROJECT_DIR$/yashd.c" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,7 +31,7 @@
       <file leaf-file-name="my_semaphore.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/my_semaphore.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
+            <state relative-caret-position="0">
               <caret line="36" column="70" lean-forward="false" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
               <folding>
                 <element signature="e#91#110#0" expanded="true" />
@@ -47,8 +44,8 @@
       <file leaf-file-name="yashd.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yashd.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="168" column="24" lean-forward="false" selection-start-line="168" selection-start-column="24" selection-end-line="168" selection-end-column="24" />
+            <state relative-caret-position="914">
+              <caret line="170" column="9" lean-forward="false" selection-start-line="170" selection-start-column="9" selection-end-line="170" selection-end-column="9" />
               <folding>
                 <element signature="e#422#444#0" expanded="true" />
               </folding>
@@ -59,8 +56,8 @@
       <file leaf-file-name="yash.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/yash.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="169" column="0" lean-forward="false" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+            <state relative-caret-position="354">
+              <caret line="180" column="7" lean-forward="false" selection-start-line="180" selection-start-column="7" selection-end-line="180" selection-end-column="7" />
               <folding>
                 <element signature="e#184#206#0" expanded="true" />
               </folding>
@@ -71,7 +68,7 @@
       <file leaf-file-name="yash_program.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yash_program.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6740">
+            <state relative-caret-position="0">
               <caret line="337" column="0" lean-forward="false" selection-start-line="337" selection-start-column="0" selection-end-line="337" selection-end-column="0" />
               <folding>
                 <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
@@ -88,7 +85,7 @@
       <file leaf-file-name="helpers.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/helpers.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2120">
+            <state relative-caret-position="0">
               <caret line="106" column="14" lean-forward="false" selection-start-line="106" selection-start-column="6" selection-end-line="106" selection-end-column="14" />
               <folding />
             </state>
@@ -177,7 +174,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../yash" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Systems/project3" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -233,12 +230,12 @@
       <workItem from="1507610673420" duration="8126000" />
       <workItem from="1507900469096" duration="9534000" />
       <workItem from="1507910649830" duration="2450000" />
-      <workItem from="1507918430460" duration="673000" />
+      <workItem from="1507918430460" duration="8552000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70823000" />
+    <option name="totallyTimeSpent" value="78702000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -251,7 +248,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="89" y="-5" width="1849" height="967" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19254313" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971016" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -260,7 +256,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31674758" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31674758" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -748,7 +744,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/helpers.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2120">
+        <state relative-caret-position="0">
           <caret line="106" column="14" lean-forward="false" selection-start-line="106" selection-start-column="6" selection-end-line="106" selection-end-column="14" />
           <folding />
         </state>
@@ -756,7 +752,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/yash_program.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6740">
+        <state relative-caret-position="0">
           <caret line="337" column="0" lean-forward="false" selection-start-line="337" selection-start-column="0" selection-end-line="337" selection-end-column="0" />
           <folding>
             <marker date="1507916721386" expanded="true" signature="7342:11428" ph="{...}" />
@@ -771,7 +767,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/my_semaphore.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
+        <state relative-caret-position="0">
           <caret line="36" column="70" lean-forward="false" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
           <folding>
             <element signature="e#91#110#0" expanded="true" />
@@ -782,8 +778,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/yashd.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="168" column="24" lean-forward="false" selection-start-line="168" selection-start-column="24" selection-end-line="168" selection-end-column="24" />
+        <state relative-caret-position="914">
+          <caret line="170" column="9" lean-forward="false" selection-start-line="170" selection-start-column="9" selection-end-line="170" selection-end-column="9" />
           <folding>
             <element signature="e#422#444#0" expanded="true" />
           </folding>
@@ -792,8 +788,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/yash.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="169" column="0" lean-forward="false" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+        <state relative-caret-position="354">
+          <caret line="180" column="7" lean-forward="false" selection-start-line="180" selection-start-column="7" selection-end-line="180" selection-end-column="7" />
           <folding>
             <element signature="e#184#206#0" expanded="true" />
           </folding>

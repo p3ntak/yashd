@@ -24,11 +24,9 @@ char buf[BUFSIZE];
 char rbuf[BUFSIZE];
 void GetUserInput();
 void cleanup(char *buf);
-int sigint_flag = 0;
-int sigtstp_flag = 0;
 
 
-int rc, cc;
+ssize_t rc;
 int   sd;
 
 int main(int argc, char **argv ) {
@@ -157,12 +155,12 @@ void GetUserInput()
     char cmd[] = "CMD ";
     char *yash_proto_buf = malloc(sizeof(char) * MAX_INPUT_LENGTH);
     for(;;) {
-//        printf("\nType anything followed by RETURN, or type CTRL-D to exit\n");
         cleanup(buf);
         cleanup(yash_proto_buf);
         if ((rc = read(0, buf, sizeof(buf)))) {
-            if (rc == 0) break;
-            if(strstr(buf, "exit")) break;
+            if(strstr(buf, "exit")) {
+                break;
+            }
             if(rc > 0) {
                 strcat(yash_proto_buf, cmd);
                 strcat(yash_proto_buf, buf);
@@ -171,11 +169,12 @@ void GetUserInput()
                     perror("sending stream message");
             }
         }
+        if (rc == 0) {
+            break;
+        }
     }
-    printf("EOF... exit\n");
     close(sd);
     kill(getppid(), 9);
-    free(yash_proto_buf);
     exit(0);
 }
 
