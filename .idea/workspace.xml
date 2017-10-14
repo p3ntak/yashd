@@ -42,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="yashd.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="yashd.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/yashd.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="135" column="0" lean-forward="false" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
+            <state relative-caret-position="621">
+              <caret line="145" column="21" lean-forward="false" selection-start-line="145" selection-start-column="21" selection-end-line="145" selection-end-column="21" />
               <folding>
                 <element signature="e#422#444#0" expanded="true" />
               </folding>
@@ -57,8 +57,8 @@
       <file leaf-file-name="yash.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yash.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-799">
-              <caret line="131" column="0" lean-forward="false" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+            <state relative-caret-position="681">
+              <caret line="106" column="0" lean-forward="false" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
               <folding>
                 <element signature="e#184#206#0" expanded="true" />
               </folding>
@@ -66,11 +66,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="yash_program.c" pinned="false" current-in-tab="true">
+      <file leaf-file-name="yash_program.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yash_program.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="40">
-              <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+            <state relative-caret-position="620">
+              <caret line="31" column="29" lean-forward="false" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -79,8 +79,8 @@
       <file leaf-file-name="daemon.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/daemon.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="34" column="38" lean-forward="false" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="38" />
+            <state relative-caret-position="293">
+              <caret line="99" column="28" lean-forward="true" selection-start-line="99" selection-start-column="28" selection-end-line="99" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -126,9 +126,11 @@
       <find>dup2</find>
       <find>disconnected</find>
       <find>psd</find>
-      <find>printf</find>
       <find>send_resp</find>
       <find>sig_handler</find>
+      <find>killed</find>
+      <find>printf</find>
+      <find>stde</find>
       <find>free</find>
     </findStrings>
   </component>
@@ -143,14 +145,14 @@
         <option value="$PROJECT_DIR$/yashdclient.c" />
         <option value="$PROJECT_DIR$/yashdhost.c" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/daemon.h" />
         <option value="$PROJECT_DIR$/semaphore.h" />
         <option value="$PROJECT_DIR$/MakeFile" />
         <option value="$PROJECT_DIR$/helpers.h" />
         <option value="$PROJECT_DIR$/my_semaphore.h" />
         <option value="$PROJECT_DIR$/yash.c" />
-        <option value="$PROJECT_DIR$/yashd.c" />
+        <option value="$PROJECT_DIR$/daemon.h" />
         <option value="$PROJECT_DIR$/yash_program.c" />
+        <option value="$PROJECT_DIR$/yashd.c" />
       </list>
     </option>
   </component>
@@ -259,12 +261,12 @@
       <workItem from="1507610673420" duration="8126000" />
       <workItem from="1507900469096" duration="9534000" />
       <workItem from="1507910649830" duration="2450000" />
-      <workItem from="1507918430460" duration="27416000" />
+      <workItem from="1507918430460" duration="29202000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="97566000" />
+    <option name="totallyTimeSpent" value="99352000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -721,20 +723,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/yashd.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="135" column="0" lean-forward="false" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
-          <folding>
-            <element signature="e#422#444#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/yash.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-799">
-          <caret line="131" column="0" lean-forward="false" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+        <state relative-caret-position="681">
+          <caret line="106" column="0" lean-forward="false" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
           <folding>
             <element signature="e#184#206#0" expanded="true" />
           </folding>
@@ -743,17 +735,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/daemon.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="34" column="38" lean-forward="false" selection-start-line="34" selection-start-column="37" selection-end-line="34" selection-end-column="38" />
+        <state relative-caret-position="293">
+          <caret line="99" column="28" lean-forward="true" selection-start-line="99" selection-start-column="28" selection-end-line="99" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/yash_program.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="27" column="1" lean-forward="false" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
+        <state relative-caret-position="620">
+          <caret line="31" column="29" lean-forward="false" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yashd.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="145" column="21" lean-forward="false" selection-start-line="145" selection-start-column="21" selection-end-line="145" selection-end-column="21" />
+          <folding>
+            <element signature="e#422#444#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

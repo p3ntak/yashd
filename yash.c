@@ -49,13 +49,11 @@ int main(int argc, char **argv ) {
     gethostname(ThisHost, MAXHOSTNAME);
     /* OR strcpy(ThisHost,"localhost"); */
 
-    printf("----TCP/Client running at host NAME: %s\n", ThisHost);
     if  ( (hp = gethostbyname(ThisHost)) == NULL ) {
         fprintf(stderr, "Can't find host %s\n", argv[1]);
         exit(-1);
     }
     bcopy ( hp->h_addr, &(server.sin_addr), hp->h_length);
-    printf("    (TCP/Client INET ADDRESS is: %s )\n", inet_ntoa(server.sin_addr));
 
     /** get TCPServer-ex2 Host information, NAME and INET ADDRESS */
 
@@ -72,9 +70,7 @@ int main(int argc, char **argv ) {
             exit(-1);
         }
     }
-    printf("----TCP/Server running at host NAME: %s\n", hp->h_name);
     bcopy ( hp->h_addr, &(server.sin_addr), hp->h_length);
-    printf("    (TCP/Server INET ADDRESS is: %s )\n", inet_ntoa(server.sin_addr));
 
     /* Construct name of socket to send to. */
     server.sin_family = AF_INET;
@@ -104,14 +100,10 @@ int main(int argc, char **argv ) {
         perror("could't get peername\n");
         exit(1);
     }
-    printf("Connected to TCPServer1: ");
-    printf("%s:%d\n", inet_ntoa(from.sin_addr),
-           ntohs(from.sin_port));
     if ((hp = gethostbyaddr((char *) &from.sin_addr.s_addr,
                             sizeof(from.sin_addr.s_addr),AF_INET)) == NULL)
         fprintf(stderr, "Can't find host %s\n", inet_ntoa(from.sin_addr));
     else
-        printf("(Name is : %s)\n", hp->h_name);
     childpid = fork();
     if (childpid == 0) {
         GetUserInput();
