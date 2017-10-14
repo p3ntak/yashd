@@ -59,7 +59,7 @@ void mainLoop(void)
         fixed_args = &args[1];
         executeLine(fixed_args, lineCpy);
     }
-    prompt = strdup("# ");
+    prompt = strdup("\n# ");
     send_response(prompt);
     return;
 }

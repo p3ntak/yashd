@@ -120,7 +120,7 @@ int main(int argc, char **argv ) {
             perror("receiving stream  message");
             exit(-1);
         }
-        if(strncmp(rbuf, "#", 1) == 0) {
+        if(strncmp(rbuf, "\n#", 2) == 0) {
             printf("%s", rbuf);
             fflush(stdout);
         }
