@@ -166,11 +166,11 @@ void *EchoServe(void *arg) {
             write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
             yash_prog_loop(buf, psd);
         }
-        else {
-            printf("exiting\n");
-            close (psd);
-            pthread_exit(NULL);
-        }
+//        else {
+//            printf("exiting\n");
+//            close (psd);
+//            pthread_exit(NULL);
+//        }
     }
 }
 void reusePort(int s)
