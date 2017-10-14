@@ -11,7 +11,7 @@ int rc;
 
 //main to take arguments and start a loop
 //int yash_prog_loop(int argc, char **argv)
-int yash_prog_loop(char *buf_passed, int psd_passed)
+void yash_prog_loop(char *buf_passed, int psd_passed)
 {
     jobs = malloc(sizeof(struct Job) * MAX_NUMBER_JOBS);
     psd = psd_passed;
@@ -20,13 +20,12 @@ int yash_prog_loop(char *buf_passed, int psd_passed)
     mainLoop();
 
 
-    return EXIT_SUCCESS;
+//    return EXIT_SUCCESS;
 }
 
 
 void mainLoop(void)
 {
-    int status;
     char *line;
     char **args;
     activeJobsSize = 0;
@@ -59,9 +58,6 @@ void mainLoop(void)
         fixed_args = &args[1];
         executeLine(fixed_args, lineCpy);
     }
-    printf("\n");
-    rc = (int) strlen(buf);
-    send_response(buf);
     prompt = strdup("# ");
     send_response(prompt);
     return;
@@ -117,9 +113,6 @@ int executeLine(char **args, char *line)
     {
         struct PipedArgs pipedArgs = getTwoArgs(args);
         returnVal = startPipedOperation(pipedArgs.args1, pipedArgs.args2);
-        free(pipedArgs.args1);
-        free(pipedArgs.args2);
-        free(args);
         return returnVal;
     }
 
@@ -130,7 +123,6 @@ int executeLine(char **args, char *line)
     {
         returnVal = startOperation(args);
     }
-    free(args);
     return returnVal;
 }
 

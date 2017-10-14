@@ -129,10 +129,10 @@ int main(int argc, char **argv ) {
             exit(-1);
         }
         if(strncmp(rbuf, "#", 1) == 0) {
-            printf("string has #\n");
             printf("%s", rbuf);
+            fflush(stdout);
         }
-        if (rc > 0){
+        else if (rc > 0){
             rbuf[rc]='\0';
             printf("%s\n", rbuf);
         }else {

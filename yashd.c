@@ -134,7 +134,6 @@ int main(int argc, char **argv ) {
     }
 }
 
-// todo: change echoserver to launch yashd. thread should first spawn two processes.
 // parent should do non blocking waitpid followed up a non blocking receive so a CTL signal can be received
 void *EchoServe(void *arg) {
     thread_data_t *data = (thread_data_t *)arg;
@@ -144,6 +143,12 @@ void *EchoServe(void *arg) {
     ssize_t rc;
     struct  hostent *hp, *gethostbyname();
     dup2(psd, STDOUT_FILENO);
+
+    char *prompt;
+    prompt = strdup("# ");
+    rc = strlen(prompt);
+    if (send(psd, prompt, (size_t) rc, 0) < 0)
+        perror("sending stream message");
 
     if ((hp = gethostbyaddr((char *)&from.sin_addr.s_addr,
                             sizeof(from.sin_addr.s_addr),AF_INET)) == NULL)
@@ -162,6 +167,7 @@ void *EchoServe(void *arg) {
             yash_prog_loop(buf, psd);
         }
         else {
+            printf("exiting\n");
             close (psd);
             pthread_exit(NULL);
         }
