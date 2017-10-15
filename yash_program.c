@@ -2,7 +2,7 @@
 // Global Vars
 int pid_ch1, pid_ch2, pid;
 int activeJobsSize; //goes up and down as jobs finish
-struct Job *jobs;
+struct Job jobs[250];
 int *pactiveJobsSize = &activeJobsSize;
 int psd;
 char *buf;
@@ -13,7 +13,7 @@ int rc;
 //int yash_prog_loop(int argc, char **argv)
 void yash_prog_loop(char *buf_passed, int psd_passed)
 {
-    jobs = malloc(sizeof(struct Job) * MAX_NUMBER_JOBS);
+//    jobs = malloc(sizeof(struct Job) * MAX_NUMBER_JOBS);
     psd = psd_passed;
     buf = strdup(buf_passed);
 
