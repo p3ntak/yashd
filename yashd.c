@@ -142,7 +142,7 @@ void *EchoServe(void *arg) {
     char buf[512];
     ssize_t rc;
     struct  hostent *hp, *gethostbyname();
-    dup2(psd, STDOUT_FILENO);
+
 
     char *prompt;
     prompt = strdup("# ");

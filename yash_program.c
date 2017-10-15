@@ -28,6 +28,7 @@ void mainLoop(void)
     char *line;
     char **args;
     activeJobsSize = 0;
+    dup2(psd, STDOUT_FILENO);
 
     //read input line
     //parse input
