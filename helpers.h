@@ -18,7 +18,7 @@
 
 //function declarations
 int executeLine(char **args, char *line);
-void mainLoop(void);
+void mainLoop(int tid);
 int startPipedOperation(char **args1, char **args2);
 int startOperation(char **args);
 int startBgOperation(char **args);
@@ -26,7 +26,7 @@ static void sig_int(int signo);
 static void sig_tstp(int signo);
 static void sig_handler(int signo);
 void cleanup(char *buf);
-void send_response(char *send_str);
+void send_response(char *send_str, int tid);
 struct PipedArgs
 {
     char **args1;

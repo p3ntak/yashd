@@ -1,32 +1,31 @@
 #include "helpers.h"
+#include "threads.h"
 // Global Vars
 int pid_ch1, pid_ch2, pid;
 int activeJobsSize; //goes up and down as jobs finish
 struct Job *jobs;
 int *pactiveJobsSize = &activeJobsSize;
-int psd;
-char *buf;
-int rc;
 
+int rc;
+extern thread_data_t thread_arr[100];
 
 //main to take arguments and start a loop
 //int yash_prog_loop(int argc, char **argv)
-void yash_prog_loop(char *buf_passed, int psd_passed)
+void yash_prog_loop(int tid)
 {
     jobs = malloc(sizeof(struct Job) * MAX_NUMBER_JOBS);
-    psd = psd_passed;
-    buf = strdup(buf_passed);
 
-    mainLoop();
+    mainLoop(tid);
 //    return EXIT_SUCCESS;
 }
 
-void mainLoop(void)
+void mainLoop(int tid)
 {
     int status = 0;
     char *line;
     char **args;
     activeJobsSize = 0;
+
 
     //read input line
     //parse input
@@ -55,6 +54,7 @@ void mainLoop(void)
         fflush(stdout);
 
         printf("%s",prompt);
+//        write(thread_arr[tid].psd, prompt, strlen(prompt));
         fflush(stdout);
     } while(status);
     return;
@@ -439,13 +439,13 @@ static void sig_handler(int signo) {
             signal(signo,SIG_IGN);
             signal(SIGINT,sig_handler);
             resp = strdup("ctrl c received\n");
-            send_response(resp);
+//            send_response(resp);
             break;
         case SIGTSTP:
             signal(signo,SIG_IGN);
             signal(SIGTSTP,sig_handler);
             resp = strdup("ctrl z received\n");
-            send_response(resp);
+//            send_response(resp, tid);
             break;
         case SIGCHLD:
             signal(signo,SIG_IGN);
@@ -464,9 +464,9 @@ void cleanup(char *buf)
     for(i=0; i<buf_size; i++) buf[i]='\0';
 }
 
-void send_response(char *send_str) {
+void send_response(char *send_str, int tid) {
     rc = (int) strlen(send_str);
-    if (send(psd, send_str, (size_t) rc, 0) < 0)
+    if (send(thread_arr[tid].psd, send_str, (size_t) rc, 0) < 0)
         perror("sending stream message");
     cleanup(send_str);
 }

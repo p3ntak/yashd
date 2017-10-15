@@ -17,7 +17,9 @@ pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 /* create thread argument struct for thr_func() */
 typedef struct _thread_data_t {
     int psd;
-    struct sockaddr_in from;
+    int pthread_pip_fd[2];
+    struct sockaddr_in *from;
+    int tid;
 } thread_data_t;
 
 /* thread function Ex1: thread_data_t Input; no output*/

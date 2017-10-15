@@ -10,6 +10,8 @@ DESCRIPTION:  The program creates a TCP socket in the inet
 
 */
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 /* socket(), bind(), recv, send */
 #include <sys/types.h>
 #include <sys/socket.h> /* sockaddr_in */
@@ -27,7 +29,14 @@ DESCRIPTION:  The program creates a TCP socket in the inet
 #define MAXHOSTNAME 80
 void reusePort(int sock);
 void *EchoServe(void *arg);
+thread_data_t thread_arr[100];
+pthread_t thr[100];
+static pthread_key_t psd_key;
+static pthread_once_t key_once = PTHREAD_ONCE_INIT;
 
+static void make_key(){
+    (void) pthread_key_create(&psd_key, NULL);
+}
 
 // TODO: put main in a main loop so we can exit main without killing the yashd
 int ret;
@@ -38,7 +47,6 @@ int main(int argc, char **argv ) {
     struct   sockaddr_in server;
     struct  hostent *hp, *gethostbyname();
     struct  servent *sp;
-    struct sockaddr_in from;
     int fromlen;
     int length;
     char ThisHost[80];
@@ -117,16 +125,22 @@ int main(int argc, char **argv ) {
 
     /** accept TCP connections from clients and fork a process to serve each */
     listen(sd,4);
-    fromlen = sizeof(from);
+//    for(int tid=0; tid<100; tid++){
+    (void) pthread_once(&key_once, make_key);
+    int tid = 0;
     for(;;){
-        pthread_t thr;
+        struct sockaddr_in from;
+        fromlen = sizeof(from);
         ssize_t rc;
 /**     create a thread_data_t argument array */
         psd  = accept(sd, (struct sockaddr *)&from, &fromlen);
-        thread_data_t thr_data;
-        thr_data.from = from;
-        thr_data.psd = psd;
-        if ((rc = pthread_create(&thr, NULL, EchoServe, &thr_data))) {
+//        thread_data_t thread_data;
+//        thread_data.psd = psd;
+//        thread_data.from = from;
+        thread_arr[tid].from = &from;
+        thread_arr[tid].psd = psd;
+        thread_arr[tid].tid = tid;
+        if ((rc = pthread_create(&thr[tid], NULL, EchoServe, &thread_arr[tid].tid))) {
             fprintf(stderr, "error: pthread_create, rc: %d\n", (int) rc);
             close(psd);
             return EXIT_FAILURE;
@@ -136,48 +150,48 @@ int main(int argc, char **argv ) {
 
 // parent should do non blocking waitpid followed up a non blocking receive so a CTL signal can be received
 void *EchoServe(void *arg) {
-    thread_data_t *data = (thread_data_t *)arg;
-    int psd = data->psd;
-    struct sockaddr_in from = data->from;
-    char buf[512];
-    ssize_t rc;
+//    thread_data_t *data = (thread_data_t *)arg;
+    int *tid_temp = (int*) arg;
+    int tid = *tid_temp;
     struct  hostent *hp, *gethostbyname();
-    int pthread_pipe_fd[2];
-    int new_pid;
-    char **args;
-    char *buf_copy;
-    dup2(psd, STDOUT_FILENO);
+    if ((hp = gethostbyaddr((char *)&thread_arr[tid].from->sin_addr,
+                            sizeof(thread_arr[tid].from->sin_addr),AF_INET)) == NULL)
+        fprintf(stderr, "Can't find host %s\n", inet_ntoa(thread_arr[tid].from->sin_addr));
+//    int psd = data->psd;
+//    int my_tid = data->tid;
+//    void *thread_psd;
 
-    char *prompt;
-    prompt = strdup("# ");
-    rc = strlen(prompt);
-    if (send(psd, prompt, (size_t) rc, 0) < 0)
-        perror("sending stream message");
-
-    if ((hp = gethostbyaddr((char *)&from.sin_addr.s_addr,
-                            sizeof(from.sin_addr.s_addr),AF_INET)) == NULL)
-        fprintf(stderr, "Can't find host %s\n", inet_ntoa(from.sin_addr));
-
-    if(pipe(pthread_pipe_fd) ==-1){
+//    struct sockaddr_in *from = data->from;
+    if(pipe(thread_arr[tid].pthread_pip_fd) ==-1){
         perror("pthread pipe\n");
         exit(-1);
     }
+    dup2(thread_arr[tid].psd, STDOUT_FILENO);
+    setbuf(stdout, NULL);
+    setbuf(stderr, NULL);
+    FILE * client = fdopen(thread_arr[tid].psd, "w");
 
-    /**  get data from  clients and send it back */
+    int new_pid = fork();
 
-    new_pid = fork();
     if(new_pid == 0) {
-        close(pthread_pipe_fd[1]);
-        dup2(pthread_pipe_fd[0], STDIN_FILENO);
-        yash_prog_loop(buf, psd);
+        close(thread_arr[tid].pthread_pip_fd[1]);
+        dup2(thread_arr[tid].pthread_pip_fd[0], STDIN_FILENO);
+        thread_arr[tid].psd = fileno(client);
+        yash_prog_loop(thread_arr[tid].tid);
     }
     else if (new_pid > 0){
-        close(pthread_pipe_fd[0]);
-        dup2(pthread_pipe_fd[1],STDOUT_FILENO);
+        close(thread_arr[tid].pthread_pip_fd[0]);
+        char *prompt;
+        prompt = strdup("# ");
+        rc = strlen(prompt);
+        if (send(thread_arr[tid].psd, prompt, (size_t) rc, 0) < 0)
+            perror("sending stream message");
         for(;;){
+            char buf[512];
+            char **args;
+            char *buf_copy;
             cleanup(buf);
-            cleanup(buf_copy);
-            if( (rc=recv(psd, buf, sizeof(buf), 0)) < 0){
+            if( (rc=recv(thread_arr[tid].psd, buf, sizeof(buf), 0)) < 0){
                 perror("receiving stream  message");
                 exit(-1);
             }
@@ -193,10 +207,14 @@ void *EchoServe(void *arg) {
                     printf("%s",buf);
                     fflush(stdout);
                 }
-                write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
+                write_to_log(buf, (size_t) rc, inet_ntoa(thread_arr[tid].from->sin_addr), ntohs(thread_arr[tid].from->sin_port));
             }
         }
     }
+    /**  get data from  clients and send it back */
+
+
+
 
 
 //        else {

@@ -1,9 +1,23 @@
- 14014----TCP/Server running at host NAME: ubuntu
-    (TCP/Server INET ADDRESS is: 127.0.1.1 )
-Server Port is: 3826
-Serving 127.0.0.1:58614
-(Name is : localhost)
- -- thread A -- lock acquired. Enter critical section
+  4508cmake-build-debug
+CMakeLists.txt
+daemon.h
+helpers.h
+Makefile
+my_semaphore.h
+README.md
+threads.h
+tmp
+yash
+yash.c
+yashd
+yashd.c
+yashd.o
+yash.o
+yash_program.c
+
+# 
+# 
+ead A -- lock acquired. Enter critical section
  -- thread A -- leaving critical section
 test
 test2
