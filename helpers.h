@@ -63,6 +63,7 @@ void fg_handler(int signo);
 void proc_exit(int signo);
 int setRedirIn(char **args, int redirIn, FILE *readFilePointer, int argCount);
 int setRedirOut(char **args, int redirOut, FILE *writeFilePointer, int argCount);
+void yash_prog_loop(char *buf_passed, int psd_passed);
 
 #define MAX_INPUT_LENGTH 200
 #define FINISHED_INPUT 1
