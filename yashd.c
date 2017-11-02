@@ -28,10 +28,10 @@ DESCRIPTION:  The program creates a TCP socket in the inet
 void reusePort(int sock);
 void *EchoServe(void *arg);
 struct proc_info{
-    int my_tid;
-    int my_pid;
+    pthread_t my_tid;
     int my_socket;
-    int parent_pid;
+    int shell_pid;
+    int pthread_pipe_fd[2];
 };
 
 // Global Vars
@@ -43,7 +43,7 @@ int psd;
 char *buf;
 int rc;
 
-struct proc_info proc_info_table[100];
+struct proc_info *proc_info_table;
 int table_index_counter = 0;
 
 // TODO: put main in a main loop so we can exit main without killing the yashd
@@ -133,6 +133,7 @@ int main(int argc, char **argv ) {
     }
 
     /** accept TCP connections from clients and fork a process to serve each */
+    proc_info_table = malloc(sizeof(struct proc_info) * 500);
     listen(sd,4);
     fromlen = sizeof(from);
     for(;;){
@@ -143,6 +144,7 @@ int main(int argc, char **argv ) {
         thread_data_t thr_data;
         thr_data.from = from;
         thr_data.psd = psd;
+        proc_info_table[table_index_counter].my_socket = psd;
         if ((rc = pthread_create(&thr, NULL, EchoServe, &thr_data))) {
             fprintf(stderr, "error: pthread_create, rc: %d\n", (int) rc);
             close(psd);
@@ -154,16 +156,16 @@ int main(int argc, char **argv ) {
 // parent should do non blocking waitpid followed up a non blocking receive so a CTL signal can be received
 void *EchoServe(void *arg) {
     thread_data_t *data = (thread_data_t *)arg;
+    proc_info_table[table_index_counter].my_tid = pthread_self();
     int psd = data->psd;
     struct sockaddr_in from = data->from;
     char buf[512];
     ssize_t rc;
     struct  hostent *hp, *gethostbyname();
-    int pthread_pipe_fd[2];
     int new_pid;
     char **args;
     char *buf_copy;
-    dup2(psd, STDOUT_FILENO);
+//    dup2(psd, STDOUT_FILENO);
 
     char *prompt;
     prompt = strdup("# ");
@@ -175,29 +177,34 @@ void *EchoServe(void *arg) {
                             sizeof(from.sin_addr.s_addr),AF_INET)) == NULL)
         fprintf(stderr, "Can't find host %s\n", inet_ntoa(from.sin_addr));
 
-    if(pipe(pthread_pipe_fd) ==-1){
+    if(pipe(proc_info_table[table_index_counter].pthread_pipe_fd) ==-1){
         perror("pthread pipe\n");
         exit(-1);
     }
 
     /**  get data from  clients and send it back */
-
     new_pid = fork();
     if(new_pid == 0) {
-        close(pthread_pipe_fd[1]);
-        dup2(pthread_pipe_fd[0], STDIN_FILENO);
+        close(proc_info_table[table_index_counter].pthread_pipe_fd[1]);
+        dup2(proc_info_table[table_index_counter].pthread_pipe_fd[0], STDIN_FILENO);
+        proc_info_table[table_index_counter].shell_pid = getpid();
+
+
         yash_prog_loop(buf, psd);
     }
     else if (new_pid > 0){
-        close(pthread_pipe_fd[0]);
-        dup2(pthread_pipe_fd[1],STDOUT_FILENO);
+        int returned_index = get_proc_info_index_pid(getpid());
+        printf("my_socket: %d, returned index: %d, pid: %d\n",proc_info_table[returned_index].my_socket, returned_index, getpid());
+        close(proc_info_table[table_index_counter].pthread_pipe_fd[0]);
+
+        table_index_counter++;
         for(;;){
             cleanup(buf);
-//            cleanup(buf_copy);
             if( (rc=recv(psd, buf, sizeof(buf), 0)) < 0){
                 perror("receiving stream  message");
                 exit(-1);
             }
+            dup2(proc_info_table[get_proc_info_index_by_tid(pthread_self())].pthread_pipe_fd[1],STDOUT_FILENO);
             if (rc > 0){
                 buf[rc]='\0';
                 buf_copy = strdup(buf);
@@ -214,15 +221,26 @@ void *EchoServe(void *arg) {
             }
         }
     }
-
-
-//        else {
-//            printf("exiting\n");
-//            close (psd);
-//            pthread_exit(NULL);
-//        }
-
 }
+
+int get_proc_info_index_pid(int pid){
+    for(int i=0; i<table_index_counter + 1; i++){
+        if(proc_info_table[i].shell_pid == pid){
+            return i;
+        }
+    }
+    return 0;
+}
+
+int get_proc_info_index_by_tid(pthread_t tid){
+    for(int i=0; i<table_index_counter ; i++){
+        if(pthread_equal(proc_info_table[i].my_tid, tid) != 0){
+            return i;
+        }
+    }
+    return 0;
+}
+
 void reusePort(int s)
 {
     int one=1;
@@ -259,12 +277,21 @@ void mainLoop(void)
     //stay in loop until an exit is requested
     //while waiting for user input SIGINT is ignored so ctrl+c will not stop the shell
     // ignore sigint and sigtstp while waiting for input
-    signal(SIGINT, sig_handler);
-    signal(SIGTSTP, sig_handler);
+
     char *prompt;
     prompt = strdup("\n# ");
     do {
+        signal(SIGINT, sig_handler);
+        signal(SIGTSTP, sig_handler);
         line = readLineIn();
+        int returned_index = get_proc_info_index_pid(getpid());
+        dup2(proc_info_table[returned_index].my_socket, STDOUT_FILENO);
+        printf("my_socket: %d, returned index: %d, pid: %d\n",proc_info_table[returned_index].my_socket, returned_index, getpid());
+        printf("table index %d\n", table_index_counter);
+        for(int i=0; i<table_index_counter+1; i++){
+            printf("table elem[%d]: socket: %d, pid: %d\n", i,proc_info_table[i].my_socket, proc_info_table[i].shell_pid);
+        }
+
         if (line == NULL) {
             printf("\n");
             killProcs(jobs, pactiveJobsSize);
@@ -415,6 +442,15 @@ int startOperation(char **args)
     int redirIn = containsInRedir(args);
     int redirOut = containsOutRedir(args);
 
+    if (signal(SIGINT, sig_int) == SIG_ERR)
+    {
+        printf("signal(SIGINT)_error");
+    }
+    if (signal(SIGTSTP, sig_tstp) == SIG_ERR)
+    {
+        printf("signal(SIGTSTP)_error");
+    }
+
     pid_ch1 = fork();
     if(pid_ch1 == 0)
     {
@@ -452,14 +488,6 @@ int startOperation(char **args)
         // Parent process
         startJobsPID(jobs, pid_ch1, activeJobsSize);
         // change sig catchers back to not ignore signals
-        if (signal(SIGINT, sig_handler) == SIG_ERR)
-        {
-            printf("signal(SIGINT)_error");
-        }
-        if (signal(SIGTSTP, sig_tstp) == SIG_ERR)
-        {
-            printf("signal(SIGTSTP)_error");
-        }
         int count = 0;
         while(count<1)
         {
@@ -624,12 +652,14 @@ int startPipedOperation(char **args1, char **args2)
 
 static void sig_int(int signo)
 {
-    kill(-pid_ch1, SIGINT);
+    printf("killing %d\n", pid_ch1);
+    kill(pid_ch1, SIGINT);
 }
 
 
 static void sig_tstp(int signo)
 {
+    kill(pid_ch1, SIGTSTP);
     kill(-pid_ch1, SIGTSTP);
 }
 

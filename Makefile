@@ -12,7 +12,7 @@ yash : yash.o
 # yashd.o depends on yashd.c and it is built
 # by running the command gcc -c yashd.c
 
-yashd.o : yashd.c daemon.h helpers.h my_semaphore.h threads.h yash.c yash_program.c
+yashd.o : yashd.c daemon.h helpers.h my_semaphore.h threads.h yash.c
 	gcc-6 -c yashd.c -lpthread
 
 yash.o : yash.c
