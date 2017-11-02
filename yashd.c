@@ -79,8 +79,8 @@ int main(int argc, char **argv ) {
     strcpy(u_log_path, u_server_path);
     strncat(u_log_path, ".log", PATHMAX-strlen(u_log_path));
 
-    daemon_init(u_server_path, 0); /* We stay in the u_server_path directory and file
-                                    creation is not restricted. */
+//    daemon_init(u_server_path, 0); /* We stay in the u_server_path directory and file
+//                                    creation is not restricted. */
 
     unlink(u_socket_path); /* delete the socket if already existing */
 
@@ -165,7 +165,6 @@ void *EchoServe(void *arg) {
     int new_pid;
     char **args;
     char *buf_copy;
-//    dup2(psd, STDOUT_FILENO);
 
     char *prompt;
     prompt = strdup("# ");
@@ -194,7 +193,7 @@ void *EchoServe(void *arg) {
     }
     else if (new_pid > 0){
         int returned_index = get_proc_info_index_pid(getpid());
-        printf("my_socket: %d, returned index: %d, pid: %d\n",proc_info_table[returned_index].my_socket, returned_index, getpid());
+//        printf("my_socket: %d, returned index: %d, pid: %d\n",proc_info_table[returned_index].my_socket, returned_index, getpid());
         close(proc_info_table[table_index_counter].pthread_pipe_fd[0]);
 
         table_index_counter++;
@@ -216,6 +215,7 @@ void *EchoServe(void *arg) {
                 if (strcmp(args[0], "CMD") == 0) {
                     write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
                     printf("%s",buf);
+//                    fprintf(stderr, "%s",buf);
                     fflush(stdout);
                 }
             }
@@ -286,11 +286,11 @@ void mainLoop(void)
         line = readLineIn();
         int returned_index = get_proc_info_index_pid(getpid());
         dup2(proc_info_table[returned_index].my_socket, STDOUT_FILENO);
-        printf("my_socket: %d, returned index: %d, pid: %d\n",proc_info_table[returned_index].my_socket, returned_index, getpid());
-        printf("table index %d\n", table_index_counter);
-        for(int i=0; i<table_index_counter+1; i++){
-            printf("table elem[%d]: socket: %d, pid: %d\n", i,proc_info_table[i].my_socket, proc_info_table[i].shell_pid);
-        }
+//        printf("my_socket: %d, returned index: %d, pid: %d\n",proc_info_table[returned_index].my_socket, returned_index, getpid());
+//        printf("table index %d\n", table_index_counter);
+//        for(int i=0; i<table_index_counter+1; i++){
+//            printf("table elem[%d]: socket: %d, pid: %d\n", i,proc_info_table[i].my_socket, proc_info_table[i].shell_pid);
+//        }
 
         if (line == NULL) {
             printf("\n");

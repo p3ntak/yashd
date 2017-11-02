@@ -14,8 +14,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0941ee4b-b836-4b0a-84f7-8e4c22ca17cc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yashd" afterPath="$PROJECT_DIR$/yashd" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helpers.h" afterPath="$PROJECT_DIR$/helpers.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/daemon.h" afterPath="$PROJECT_DIR$/daemon.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/yashd_log/yashd.log" afterPath="$PROJECT_DIR$/tmp/yashd_log/yashd.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/yashd_log/yashd.pid" afterPath="$PROJECT_DIR$/tmp/yashd_log/yashd.pid" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yashd.c" afterPath="$PROJECT_DIR$/yashd.c" />
@@ -54,8 +54,8 @@
       <file leaf-file-name="yashd.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/yashd.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="158" column="65" lean-forward="false" selection-start-line="158" selection-start-column="65" selection-end-line="158" selection-end-column="65" />
+            <state relative-caret-position="2266">
+              <caret line="293" column="0" lean-forward="true" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
               <folding>
                 <element signature="e#422#444#0" expanded="true" />
               </folding>
@@ -66,9 +66,11 @@
       <file leaf-file-name="daemon.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/daemon.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2151">
-              <caret line="177" column="22" lean-forward="true" selection-start-line="177" selection-start-column="22" selection-end-line="177" selection-end-column="22" />
-              <folding />
+            <state relative-caret-position="1183">
+              <caret line="100" column="5" lean-forward="false" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
+              <folding>
+                <element signature="e#85#107#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -97,10 +99,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>cleanup</find>
-      <find>made it</find>
-      <find>setredi</find>
-      <find>setredirin</find>
       <find>execvp</find>
       <find>clean</find>
       <find>disconnected</find>
@@ -125,8 +123,12 @@
       <find>sig_tstp</find>
       <find>shell pid</find>
       <find>fprintf</find>
-      <find>pid</find>
       <find>sleep</find>
+      <find>child terminated</find>
+      <find>sig_chld</find>
+      <find>my_socket</find>
+      <find>_init</find>
+      <find>pid</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -142,12 +144,12 @@
         <option value="$PROJECT_DIR$/semaphore.h" />
         <option value="$PROJECT_DIR$/MakeFile" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/daemon.h" />
         <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/yash.c" />
         <option value="$PROJECT_DIR$/my_semaphore.h" />
         <option value="$PROJECT_DIR$/yash_program.c" />
         <option value="$PROJECT_DIR$/helpers.h" />
+        <option value="$PROJECT_DIR$/daemon.h" />
         <option value="$PROJECT_DIR$/yashd.c" />
       </list>
     </option>
@@ -263,7 +265,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126815000" />
+    <option name="totallyTimeSpent" value="129166000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -286,7 +288,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.51900107" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5186583" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -338,7 +340,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/daemon.h</url>
+          <line>7</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -727,16 +736,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/daemon.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2151">
-          <caret line="177" column="22" lean-forward="true" selection-start-line="177" selection-start-column="22" selection-end-line="177" selection-end-column="22" />
-          <folding />
+        <state relative-caret-position="1183">
+          <caret line="100" column="5" lean-forward="false" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
+          <folding>
+            <element signature="e#85#107#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/yashd.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="158" column="65" lean-forward="false" selection-start-line="158" selection-start-column="65" selection-end-line="158" selection-end-column="65" />
+        <state relative-caret-position="2266">
+          <caret line="293" column="0" lean-forward="true" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
           <folding>
             <element signature="e#422#444#0" expanded="true" />
           </folding>

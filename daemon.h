@@ -65,17 +65,17 @@ void sig_chld(int n)
  */
 void daemon_init(const char * const path, uint mask)
 {
-    pid_t pid;
+    pid_t daemon_pid;
     char buff[256];
     static FILE *log; /* for the log */
     int fd;
     int k;
 
     /* put server in background (with init as parent) */
-    if ( ( pid = fork() ) < 0 ) {
+    if ( ( daemon_pid = fork() ) < 0 ) {
         perror("daemon_init: cannot fork");
         exit(0);
-    } else if (pid > 0) /* The parent */
+    } else if (daemon_pid > 0) /* The parent */
         exit(0);
 
     /* the child */
@@ -96,6 +96,8 @@ void daemon_init(const char * const path, uint mask)
 
     /* Redirecting stderr to u_log_path */
     fd = open("/dev/null", O_WRONLY);
+//    log = fopen(u_log_path, "aw"); /* attach stderr to u_log_path */
+//    fd = fileno(log);
     dup2(fd, STDERR_FILENO);
     close (fd);
     /* From this point on printing to stderr will go to /tmp/u-echod.log */
@@ -120,7 +122,7 @@ void daemon_init(const char * const path, uint mask)
     setsid();
 
     /* Put self in a new process group */
-    pid = getpid();
+    daemon_pid = getpid();
     setpgrp(); /* GPI: modified for linux */
 
     /* Make sure only one server is running */
@@ -130,7 +132,7 @@ void daemon_init(const char * const path, uint mask)
         exit(0);
 
     /* Save server's pid without closing file (so lock remains)*/
-    sprintf(buff, "%6d", pid);
+    sprintf(buff, "%6d", daemon_pid);
     write(k, buff, strlen(buff));
 
     return;

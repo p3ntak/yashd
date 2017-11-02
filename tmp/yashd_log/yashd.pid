@@ -1,33 +1,22 @@
-  9639cmake-build-debug
-CMakeLists.txt
-daemon.h
-helpers.h
-Makefile
-my_semaphore.h
-README.md
-threads.h
-tmp
-yash
-yash.c
-yashd
-yashd.c
-yashd.o
-yash.o
+ 10603Child terminated
+Child terminated
 
-#  localhost)
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-test
-test2
-test3
-test4
-- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
-ction
- -- thread A -- leaving critical section
-yash: No active jobs
- -- thread A -- lock acquired. Enter critical section
- -- thread A -- leaving critical section
+Usage:
+ kill [options] <pid> [...]
+
+Options:
+ <pid> [...]            send signal to every <pid> listed
+ -<signal>, -s, --signal <signal>
+                        specify the <signal> to be sent
+ -l, --list=[<signal>]  list all signal names, or convert one to a name
+ -L, --table            list all signal names in a nice table
+
+ -h, --help     display this help and exit
+ -V, --version  output version information and exit
+
+For more details see kill(1).
+Child terminated
+eaving critical section
 
  -- thread A -- lock acquired. Enter critical section
  -- thread A -- leaving critical section
