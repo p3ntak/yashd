@@ -37,22 +37,22 @@ static char u_pid_path[PATHMAX+1];
  *  of ^C or kill -9), then we receive a SIGPIPE
  *  signal. Here we handle that.
  */
-void sig_pipe(int n)
-{
-    perror("Broken pipe signal");
-}
-
-
-/**
- * @brief Handler for SIGCHLD signal
- */
-void sig_chld(int n)
-{
-    int status;
-
-    fprintf(stderr, "Child terminated\n");
-    wait(&status); /* So no zombies */
-}
+//void sig_pipe(int n)
+//{
+//    perror("Broken pipe signal");
+//}
+//
+//
+///**
+// * @brief Handler for SIGCHLD signal
+// */
+//void sig_chld(int n)
+//{
+//    int status;
+//
+//    fprintf(stderr, "Child terminated\n");
+//    wait(&status); /* So no zombies */
+//}
 
 
 /**
@@ -103,14 +103,14 @@ void daemon_init(const char * const path, uint mask)
     /* From this point on printing to stderr will go to /tmp/u-echod.log */
 
     /* Establish handlers for signals */
-    if ( signal(SIGCHLD, sig_chld) < 0 ) {
-        perror("Signal SIGCHLD");
-        exit(1);
-    }
-    if ( signal(SIGPIPE, sig_pipe) < 0 ) {
-        perror("Signal SIGPIPE");
-        exit(1);
-    }
+//    if ( signal(SIGCHLD, sig_chld) < 0 ) {
+//        perror("Signal SIGCHLD");
+//        exit(1);
+//    }
+//    if ( signal(SIGPIPE, sig_pipe) < 0 ) {
+//        perror("Signal SIGPIPE");
+//        exit(1);
+//    }
 
     /* Change directory to specified directory */
     chdir(path);

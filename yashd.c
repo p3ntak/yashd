@@ -25,6 +25,16 @@ DESCRIPTION:  The program creates a TCP socket in the inet
 #include "helpers.h"
 
 #define MAXHOSTNAME 80
+//function declarations
+int executeLine(char **args, char *line);
+void mainLoop(void);
+int startPipedOperation(char **args1, char **args2);
+int startOperation(char **args);
+int startBgOperation(char **args);
+static void sig_int(int signo);
+static void sig_tstp(int signo);
+static void sig_handler(int signo);
+
 void reusePort(int sock);
 void *EchoServe(void *arg);
 struct proc_info{
@@ -79,8 +89,8 @@ int main(int argc, char **argv ) {
     strcpy(u_log_path, u_server_path);
     strncat(u_log_path, ".log", PATHMAX-strlen(u_log_path));
 
-//    daemon_init(u_server_path, 0); /* We stay in the u_server_path directory and file
-//                                    creation is not restricted. */
+    daemon_init(u_server_path, 0); /* We stay in the u_server_path directory and file
+                                    creation is not restricted. */
 
     unlink(u_socket_path); /* delete the socket if already existing */
 
@@ -262,16 +272,19 @@ void yash_prog_loop(char *buf_passed, int psd_passed)
     buf = strdup(buf_passed);
 
     mainLoop();
+
 //    return EXIT_SUCCESS;
 }
 
 void mainLoop(void)
 {
-    int status = 0;
+    int status = 1;
     char *line;
     char **args;
     activeJobsSize = 0;
-
+    signal(SIGINT, sig_int);
+    signal(SIGTSTP, sig_tstp);
+    signal(SIGCHLD, proc_exit);
     //read input line
     //parse input
     //stay in loop until an exit is requested
@@ -281,8 +294,6 @@ void mainLoop(void)
     char *prompt;
     prompt = strdup("\n# ");
     do {
-        signal(SIGINT, sig_handler);
-        signal(SIGTSTP, sig_handler);
         line = readLineIn();
         int returned_index = get_proc_info_index_pid(getpid());
         dup2(proc_info_table[returned_index].my_socket, STDOUT_FILENO);
@@ -314,6 +325,7 @@ void mainLoop(void)
 }
 
 
+
 int executeLine(char **args, char *line)
 {
     if(!*args) return FINISHED_INPUT;
@@ -337,7 +349,7 @@ int executeLine(char **args, char *line)
     }
     if(strcmp(args[0], BUILT_IN_FG) == 0)
     {
-        yash_fg(jobs, activeJobsSize);
+        yash_fg(jobs, activeJobsSize, pactiveJobsSize);
         return FINISHED_INPUT;
     }
     if(strcmp(args[0], BUILT_IN_JOBS) == 0)
@@ -363,6 +375,9 @@ int executeLine(char **args, char *line)
     {
         struct PipedArgs pipedArgs = getTwoArgs(args);
         returnVal = startPipedOperation(pipedArgs.args1, pipedArgs.args2);
+        free(pipedArgs.args1);
+        free(pipedArgs.args2);
+        free(args);
         return returnVal;
     }
 
@@ -373,6 +388,7 @@ int executeLine(char **args, char *line)
     {
         returnVal = startOperation(args);
     }
+//    free(args);
     return returnVal;
 }
 
@@ -389,7 +405,6 @@ int startBgOperation(char **args)
     pid_ch1 = fork();
     if (pid_ch1 == 0)
     {
-        setsid();
         if (redirOut >= 0)
         {
             if(setRedirOut(args, redirOut, writeFilePointer, argCount) == -1)
@@ -424,7 +439,6 @@ int startBgOperation(char **args)
         perror("error forking");
     } else if (pid_ch1 > 0)
     {
-        signal(SIGCHLD, proc_exit);
         startJobsPID(jobs, pid_ch1, activeJobsSize);
     }
     if(writeFilePointer != NULL) fclose(writeFilePointer);
@@ -442,19 +456,11 @@ int startOperation(char **args)
     int redirIn = containsInRedir(args);
     int redirOut = containsOutRedir(args);
 
-    if (signal(SIGINT, sig_int) == SIG_ERR)
-    {
-        printf("signal(SIGINT)_error");
-    }
-    if (signal(SIGTSTP, sig_tstp) == SIG_ERR)
-    {
-        printf("signal(SIGTSTP)_error");
-    }
-
     pid_ch1 = fork();
     if(pid_ch1 == 0)
     {
         // child process
+
         if (redirOut >= 0)
         {
             if(setRedirOut(args, redirOut, writeFilePointer, argCount) == -1)
@@ -488,20 +494,14 @@ int startOperation(char **args)
         // Parent process
         startJobsPID(jobs, pid_ch1, activeJobsSize);
         // change sig catchers back to not ignore signals
-        int count = 0;
-        while(count<1)
-        {
-            pid = waitpid(pid_ch1, &status, WUNTRACED | WCONTINUED);
-            if (pid == -1) {
-                perror("waitpid");
-            }
-            if (WIFEXITED(status)) {
-                removeFromJobs(jobs, pid_ch1, pactiveJobsSize);
-                count++;
-            } else if (WIFSTOPPED(status)) {
-                setJobStatus(jobs, pid_ch1, activeJobsSize, STOPPED);
-                count++;
-            }
+        pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+        if (pid == -1) {
+            perror("waitpid");
+        }
+        if (WIFEXITED(status) | WIFSIGNALED(status)) {
+            removeFromJobs(jobs, pid_ch1, pactiveJobsSize);
+        } else if (WIFSTOPPED(status)) {
+            setJobStatus(jobs, pid_ch1, activeJobsSize, STOPPED);
         }
     }
     if(writeFilePointer != NULL) fclose(writeFilePointer);
@@ -536,14 +536,6 @@ int startPipedOperation(char **args1, char **args2)
         pid_ch2 = fork();
         if(pid_ch2 > 0)
         {
-            if(signal(SIGINT, sig_handler) == SIG_ERR)
-            {
-                printf("signal(SIGINT)_error");
-            }
-            if(signal(SIGTSTP, sig_tstp) == SIG_ERR)
-            {
-                printf("signal(SIGTSTP)_error");
-            }
             close(pfd[0]);
             close(pfd[1]);
             int count = 0;
@@ -562,6 +554,7 @@ int startPipedOperation(char **args1, char **args2)
                     count++;
                 } else if(WIFSIGNALED(status))
                 {
+                    removeFromJobs(jobs, pid_ch1, pactiveJobsSize);
                     count++;
                 } else if(WIFSTOPPED(status))
                 {
@@ -577,6 +570,7 @@ int startPipedOperation(char **args1, char **args2)
         } else
         {
             // child 2
+            sleep(1);
             setpgid(0, pid_ch1);
             close(pfd[1]);
             dup2(pfd[0],STDIN_FILENO);
@@ -652,30 +646,34 @@ int startPipedOperation(char **args1, char **args2)
 
 static void sig_int(int signo)
 {
-    printf("killing %d\n", pid_ch1);
+    if(pid_ch1 == -1)
+        return;
+    signal(SIGINT, sig_int);
     kill(pid_ch1, SIGINT);
 }
 
 
 static void sig_tstp(int signo)
 {
+    if(pid_ch1 == -1)
+        return;
+    signal(SIGTSTP, sig_tstp);
     kill(pid_ch1, SIGTSTP);
-    kill(-pid_ch1, SIGTSTP);
 }
 
-void proc_exit(int signo)
+static void proc_exit(int signo)
 {
-    pid_t	sig_chld_pid;
-    sig_chld_pid = wait(NULL);
-    for(int i=0; i<activeJobsSize; i++)
-    {
-        if(jobs[i].pid_no == sig_chld_pid)
-            printf("\n[%d] DONE    %s\n", jobs[i].task_no, jobs[i].line);
+    int	sig_chld_pid;
+    int status;
+    while((sig_chld_pid = waitpid(-1, &status, WNOHANG))>0) {
+        for (int i = 0; i < activeJobsSize; i++) {
+            if (jobs[i].pid_no == sig_chld_pid)
+                printf("\n[%d] DONE    %s\n", jobs[i].task_no, jobs[i].line);
+        }
+        printf("# ");
+        fflush(stdout);
+        removeFromJobs(jobs, sig_chld_pid, pactiveJobsSize);
     }
-    printf("# ");
-    fflush(stdout);
-    removeFromJobs(jobs, sig_chld_pid, pactiveJobsSize);
-    signal(SIGCHLD,SIG_DFL);
     return;
 }
 
@@ -685,23 +683,17 @@ void fg_handler(int signo)
 
     sig_chld_pid = wait(NULL);
     removeFromJobs(jobs, sig_chld_pid, pactiveJobsSize);
-    signal(SIGCHLD,SIG_DFL);
 }
 
 static void sig_handler(int signo) {
-    char *resp;
     switch(signo){
         case SIGINT:
             signal(signo,SIG_IGN);
             signal(SIGINT,sig_handler);
-            resp = strdup("ctrl c received\n");
-            send_response(resp);
             break;
         case SIGTSTP:
             signal(signo,SIG_IGN);
             signal(SIGTSTP,sig_handler);
-            resp = strdup("ctrl z received\n");
-            send_response(resp);
             break;
         case SIGCHLD:
             signal(signo,SIG_IGN);
@@ -711,20 +703,6 @@ static void sig_handler(int signo) {
             return;
     }
 
-}
-
-void cleanup(char *buf)
-{
-    int i;
-    int buf_size = (int) strlen(buf) + 1;
-    for(i=0; i<buf_size; i++) buf[i]='\0';
-}
-
-void send_response(char *send_str) {
-    rc = (int) strlen(send_str);
-    if (send(psd, send_str, (size_t) rc, 0) < 0)
-        perror("sending stream message");
-    cleanup(send_str);
 }
 
 //returns how many '|' are in the arguments
@@ -783,8 +761,9 @@ char *readLineIn(void)
     }
 
     line = fgets(line,MAX_INPUT_LENGTH+1,stdin);
-    if(line == NULL)
+    if(line == NULL) {
         return NULL;
+    }
     if(strcmp(line,"\n") == 0) return "";
     char *lineCopy = strdup(line);
 
@@ -884,16 +863,16 @@ int yash_jobs(struct Job *jobs, int activeJobsSize)
             runningStr = "Stopped";
 
         if(i == activeJobsSize-1)
-            printf("[%d] + %s    %s\n", jobs[i].task_no, runningStr , jobs[i].line);
+            printf("[%d] + %s  %d  %s\n", jobs[i].task_no, runningStr ,jobs[i].pid_no ,jobs[i].line);
         else
-            printf("[%d] - %s    %s\n", jobs[i].task_no, runningStr, jobs[i].line);
+            printf("[%d] - %s  %d  %s\n", jobs[i].task_no, runningStr, jobs[i].pid_no ,jobs[i].line);
     }
     if(activeJobsSize == 0) printf("No active jobs\n");
     return FINISHED_INPUT;
 }
 
 // built in fg command. puts the most recent command from the jobs table into the foreground
-void yash_fg(struct Job *jobs, int activeJobSize)
+void yash_fg(struct Job *jobs, int activeJobSize, int *pActiveJobSize)
 {
     int status;
     signal(SIGCONT, SIG_DFL);
@@ -924,9 +903,16 @@ void yash_fg(struct Job *jobs, int activeJobSize)
                 printf("[%d] - %s    %s\n", jobs[i].task_no, runningStr, jobs[i].line);
         }
     }
-    signal(SIGCHLD, fg_handler);
     kill(pid, SIGCONT);
-    wait(NULL);
+    pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+    if (pid == -1) {
+        perror("waitpid");
+    }
+    if (WIFEXITED(status)) {
+        removeFromJobs(jobs, pid, pActiveJobSize);
+    } else if (WIFSTOPPED(status)) {
+        setJobStatus(jobs, pid, activeJobSize, STOPPED);
+    }
     return;
 }
 
@@ -971,7 +957,6 @@ void yash_bg(struct Job *jobs, int activeJobSize)
                 printf("[%d] - %s    %s\n", jobs[i].task_no, runningStr, jobs[i].line);
         }
     }
-    signal(SIGCHLD, proc_exit);
     kill(pid, SIGCONT);
     return;
 }
@@ -1146,4 +1131,18 @@ int setRedirIn(char **args, int redirIn, FILE *readFilePointer, int argCount)
     }
 
     return 1;
+}
+
+void cleanup(char *buf)
+{
+    int i;
+    int buf_size = (int) strlen(buf) + 1;
+    for(i=0; i<buf_size; i++) buf[i]='\0';
+}
+
+void send_response(char *send_str) {
+    rc = (int) strlen(send_str);
+    if (send(psd, send_str, (size_t) rc, 0) < 0)
+        perror("sending stream message");
+    cleanup(send_str);
 }
