@@ -45,7 +45,7 @@ struct proc_info{
 };
 
 // Global Vars
-int pid_ch1, pid_ch2, pid;
+int pid_ch1 = -1, pid_ch2 = -1, pid = -1;
 int activeJobsSize; //goes up and down as jobs finish
 struct Job *jobs;
 int *pactiveJobsSize = &activeJobsSize;
@@ -105,8 +105,6 @@ int main(int argc, char **argv ) {
         exit(-1);
     }
     bcopy ( hp->h_addr, &(server.sin_addr), hp->h_length);
-
-
 
     /** Construct name of socket */
     server.sin_family = AF_INET;
@@ -197,12 +195,13 @@ void *EchoServe(void *arg) {
         close(proc_info_table[table_index_counter].pthread_pipe_fd[1]);
         dup2(proc_info_table[table_index_counter].pthread_pipe_fd[0], STDIN_FILENO);
         proc_info_table[table_index_counter].shell_pid = getpid();
-
+        fprintf(stderr,"set table shell pid to %d\n",proc_info_table[table_index_counter].shell_pid);
 
         yash_prog_loop(buf, psd);
     }
     else if (new_pid > 0){
         int returned_index = get_proc_info_index_pid(getpid());
+        proc_info_table[table_index_counter].shell_pid = new_pid;
 //        printf("my_socket: %d, returned index: %d, pid: %d\n",proc_info_table[returned_index].my_socket, returned_index, getpid());
         close(proc_info_table[table_index_counter].pthread_pipe_fd[0]);
 
@@ -219,8 +218,15 @@ void *EchoServe(void *arg) {
                 buf_copy = strdup(buf);
                 args = parseLine(buf_copy);
                 if (strcmp(args[0], "CTL") == 0) {
-                    if (strcmp(args[1], "c") == 0) kill(new_pid, SIGINT);
-                    if (strcmp(args[1], "z") == 0) kill(new_pid, SIGTSTP);
+                    pid_ch1 = proc_info_table[get_proc_info_index_by_tid(pthread_self())].shell_pid;
+                    if (strcmp(args[1], "c") == 0) {
+                        fprintf(stderr,"sending sig int to pid %d\n", pid_ch1);
+                        kill(pid_ch1, SIGINT);
+                    }
+                    if (strcmp(args[1], "z") == 0) {
+                        fprintf(stderr,"sending sig tstp to pid %d\n", pid_ch1);
+                        kill(pid_ch1, SIGTSTP);
+                    }
                 }
                 if (strcmp(args[0], "CMD") == 0) {
                     write_to_log(buf, (size_t) rc, inet_ntoa(from.sin_addr), ntohs(from.sin_port));
@@ -325,7 +331,6 @@ void mainLoop(void)
 }
 
 
-
 int executeLine(char **args, char *line)
 {
     if(!*args) return FINISHED_INPUT;
@@ -377,7 +382,6 @@ int executeLine(char **args, char *line)
         returnVal = startPipedOperation(pipedArgs.args1, pipedArgs.args2);
         free(pipedArgs.args1);
         free(pipedArgs.args2);
-        free(args);
         return returnVal;
     }
 
@@ -388,7 +392,6 @@ int executeLine(char **args, char *line)
     {
         returnVal = startOperation(args);
     }
-//    free(args);
     return returnVal;
 }
 
@@ -610,7 +613,6 @@ int startPipedOperation(char **args1, char **args2)
         setsid();
         close(pfd[0]);
         dup2(pfd[1], STDOUT_FILENO);
-
         if (redirOut1 >= 0)
         {
             if(setRedirOut(args1, redirOut1, writeFilePointer, argCount1) == -1)
@@ -650,7 +652,7 @@ static void sig_int(int signo)
     if(pid_ch1 == -1)
         return;
     signal(SIGINT, sig_int);
-    kill(pid_ch1, SIGINT);
+    kill(-pid_ch1, SIGINT);
 }
 
 
@@ -659,6 +661,7 @@ static void sig_tstp(int signo)
     if(pid_ch1 == -1)
         return;
     signal(SIGTSTP, sig_tstp);
+    kill(-pid_ch1, SIGTSTP);
     kill(pid_ch1, SIGTSTP);
 }
 
@@ -768,7 +771,6 @@ char *readLineIn(void)
     if(strcmp(line,"\n") == 0) return "";
     char *lineCopy = strdup(line);
 
-    free(line);
     return lineCopy;
 }
 
@@ -876,7 +878,6 @@ int yash_jobs(struct Job *jobs, int activeJobsSize)
 void yash_fg(struct Job *jobs, int activeJobSize, int *pActiveJobSize)
 {
     int status;
-    signal(SIGCONT, SIG_DFL);
 
     if(activeJobSize == 0)
     {
@@ -884,7 +885,7 @@ void yash_fg(struct Job *jobs, int activeJobSize, int *pActiveJobSize)
         return;
     }
 
-    int pid = jobs[activeJobSize - 1].pid_no;
+    pid_ch1 = jobs[activeJobSize - 1].pid_no;
     setJobStatus(jobs, pid, activeJobSize, RUNNING);
     for(int i=0; i<activeJobSize; i++)
     {
@@ -895,21 +896,29 @@ void yash_fg(struct Job *jobs, int activeJobSize, int *pActiveJobSize)
             runningStr = "Stopped";
         if(i == activeJobSize-1)
         {
-            if(jobs[i].pid_no == pid)
+            if(jobs[i].pid_no == pid_ch1)
                 printf("[%d] + %s    %s\n", jobs[i].task_no, runningStr , jobs[i].line);
 
         } else
         {
-            if(jobs[i].pid_no == pid)
+            if(jobs[i].pid_no == pid_ch1)
                 printf("[%d] - %s    %s\n", jobs[i].task_no, runningStr, jobs[i].line);
         }
     }
-    kill(pid, SIGCONT);
+    char *line_cpy = strdup(jobs[activeJobSize -1].line);
+    if(pipeQty(parseLine(line_cpy)) > 0) {
+        kill(-pid_ch1, SIGCONT);
+    } else {
+        kill(pid_ch1, SIGCONT);
+    }
     pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+    if (WIFCONTINUED(status)) {
+        pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+    }
     if (pid == -1) {
         perror("waitpid");
     }
-    if (WIFEXITED(status)) {
+    if (WIFEXITED(status) || WIFSIGNALED(status)) {
         removeFromJobs(jobs, pid, pActiveJobSize);
     } else if (WIFSTOPPED(status)) {
         setJobStatus(jobs, pid, activeJobSize, STOPPED);
@@ -921,7 +930,7 @@ void yash_fg(struct Job *jobs, int activeJobSize, int *pActiveJobSize)
 void yash_bg(struct Job *jobs, int activeJobSize)
 {
     int pid=0;
-    signal(SIGCONT, SIG_DFL);
+    int made_it_to_end = 1;
 
     if(activeJobSize == 0)
     {
@@ -930,12 +939,17 @@ void yash_bg(struct Job *jobs, int activeJobSize)
     }
     for(int i=activeJobSize-1; i>=0; i--)
     {
-        if(pipeQty(parseLine(jobs[i].line)) != 0) continue;
-        if(jobs[i].runningStatus == STOPPED)
-        {
+        char *line_cpy = strdup(jobs[i].line);
+        int num_pipes = pipeQty(parseLine(line_cpy));
+        if((num_pipes == 0) && (jobs[i].runningStatus == STOPPED)) {
             pid = jobs[i].pid_no;
+            made_it_to_end = 0;
             break;
         }
+    }
+    if(made_it_to_end == 1){
+        printf("No jobs available to put in background.\n");
+        return;
     }
     setJobStatus(jobs, pid, activeJobSize, RUNNING);
     for(int i=0; i<activeJobSize; i++)
