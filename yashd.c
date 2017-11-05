@@ -45,7 +45,7 @@ struct proc_info{
 };
 
 // Global Vars
-int pid_ch1, pid_ch2, pid;
+int pid_ch1 = -1, pid_ch2 = -1, pid = -1;
 int activeJobsSize; //goes up and down as jobs finish
 struct Job *jobs;
 int *pactiveJobsSize = &activeJobsSize;
@@ -89,8 +89,8 @@ int main(int argc, char **argv ) {
     strcpy(u_log_path, u_server_path);
     strncat(u_log_path, ".log", PATHMAX-strlen(u_log_path));
 
-    daemon_init(u_server_path, 0); /* We stay in the u_server_path directory and file
-                                    creation is not restricted. */
+//    daemon_init(u_server_path, 0); /* We stay in the u_server_path directory and file
+//                                    creation is not restricted. */
 
     unlink(u_socket_path); /* delete the socket if already existing */
 
@@ -375,9 +375,9 @@ int executeLine(char **args, char *line)
     {
         struct PipedArgs pipedArgs = getTwoArgs(args);
         returnVal = startPipedOperation(pipedArgs.args1, pipedArgs.args2);
-        free(pipedArgs.args1);
-        free(pipedArgs.args2);
-        free(args);
+//        free(pipedArgs.args1);
+//        free(pipedArgs.args2);
+//        free(args);
         return returnVal;
     }
 
@@ -876,7 +876,6 @@ int yash_jobs(struct Job *jobs, int activeJobsSize)
 void yash_fg(struct Job *jobs, int activeJobSize, int *pActiveJobSize)
 {
     int status;
-    signal(SIGCONT, SIG_DFL);
 
     if(activeJobSize == 0)
     {
@@ -884,7 +883,7 @@ void yash_fg(struct Job *jobs, int activeJobSize, int *pActiveJobSize)
         return;
     }
 
-    int pid = jobs[activeJobSize - 1].pid_no;
+    pid_ch1 = jobs[activeJobSize - 1].pid_no;
     setJobStatus(jobs, pid, activeJobSize, RUNNING);
     for(int i=0; i<activeJobSize; i++)
     {
@@ -895,21 +894,31 @@ void yash_fg(struct Job *jobs, int activeJobSize, int *pActiveJobSize)
             runningStr = "Stopped";
         if(i == activeJobSize-1)
         {
-            if(jobs[i].pid_no == pid)
+            if(jobs[i].pid_no == pid_ch1)
                 printf("[%d] + %s    %s\n", jobs[i].task_no, runningStr , jobs[i].line);
 
         } else
         {
-            if(jobs[i].pid_no == pid)
+            if(jobs[i].pid_no == pid_ch1)
                 printf("[%d] - %s    %s\n", jobs[i].task_no, runningStr, jobs[i].line);
         }
     }
-    kill(pid, SIGCONT);
+//    char *line_cpy = strdup(jobs[activeJobSize -1].line);
+//    if(pipeQty(parseLine(line_cpy)) > 0) {
+//        kill(-pid_ch1, SIGCONT);
+//    } else {
+//        kill(pid_ch1, SIGCONT);
+//    }
+    kill(pid_ch1, SIGCONT);
     pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+    fflush(stdout);
+    if (WIFCONTINUED(status)) {
+        pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+    }
     if (pid == -1) {
         perror("waitpid");
     }
-    if (WIFEXITED(status)) {
+    if (WIFEXITED(status) || WIFSIGNALED(status)) {
         removeFromJobs(jobs, pid, pActiveJobSize);
     } else if (WIFSTOPPED(status)) {
         setJobStatus(jobs, pid, activeJobSize, STOPPED);
@@ -921,7 +930,7 @@ void yash_fg(struct Job *jobs, int activeJobSize, int *pActiveJobSize)
 void yash_bg(struct Job *jobs, int activeJobSize)
 {
     int pid=0;
-    signal(SIGCONT, SIG_DFL);
+    int made_it_to_end = 1;
 
     if(activeJobSize == 0)
     {
@@ -930,12 +939,17 @@ void yash_bg(struct Job *jobs, int activeJobSize)
     }
     for(int i=activeJobSize-1; i>=0; i--)
     {
-        if(pipeQty(parseLine(jobs[i].line)) != 0) continue;
-        if(jobs[i].runningStatus == STOPPED)
-        {
+        char *line_cpy = strdup(jobs[i].line);
+        int num_pipes = pipeQty(parseLine(line_cpy));
+        if((num_pipes == 0) && (jobs[i].runningStatus == STOPPED)) {
             pid = jobs[i].pid_no;
+            made_it_to_end = 0;
             break;
         }
+    }
+    if(made_it_to_end == 1){
+        printf("No jobs available to put in background.\n");
+        return;
     }
     setJobStatus(jobs, pid, activeJobSize, RUNNING);
     for(int i=0; i<activeJobSize; i++)
