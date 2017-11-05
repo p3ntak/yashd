@@ -560,6 +560,7 @@ int startPipedOperation(char **args1, char **args2)
                 {
                     setJobStatus(jobs, pid_ch1, activeJobsSize, STOPPED);
                     count++;
+                    count++;
                 } else if(WIFCONTINUED(status))
                 {
                     setJobStatus(jobs, pid_ch1, activeJobsSize, RUNNING);
